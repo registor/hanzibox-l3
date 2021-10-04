@@ -1,0 +1,2444 @@
+% \iffalse meta-comment
+% !TEX program  = XeLaTeX
+%<*internal>
+\iffalse
+%</internal>
+%<*readme>
+hanzibox
+LaTeX3-based Chinese Character package
+=======
+
+`hanzibox` is a LaTeX package developed in LaTeX3, which provides `\hanzibox` and `\hanzidialog` macros. These two macros are used for typesetting Chinese character with or without a background grid such as a cross grid or star grid for Chinese character writting learning.
+
+And you can display the Hanyu Pinyin above the Chinese character and the translation below them as needed.
+
+The `\hanzibox` macro can automatically invoke the `\xpinyin*` macro of the `xpinyin` package to get Hanyu Pinyin according to the Chinese characters.  And the `\hanzibox` macro provides an asterisk version of `\hanzibox*`, whose function is achieved by automatically invoking the `xpinyin` package's `\pinyin` macro to get Hanyu Pinyin. The `\hanzidialog` macro is implemented by manually inserting the `\pinyin` macro of the `xpinyin` package in it's pinyin option.
+
+`hanzibox` is a utility for learning to write and pronounce Chinese characters, and can be used for Chinese character learning plans, presentations, exercise booklets and other documentation work.
+
+The development of this package was inspired by [Jan Vorisek's hanzibox package](https://github.com/janvorisek/chinese-latex-utilities).
+
+However, the new package redesigned the `\hanzibox` and `\hanzidialog` macros and the background grid is redesigned with the `l3draw` package by reference to [zitie package](https://www.ctan.org/pkg/zitie).  Also, the new package provides more options and arguments in order to get better results.
+
+The `hanzibox.sty` package currently only supports the XeTeX engine and only supports UTF-8 encoded LaTeX source files.
+
+You can read the manual (in Chinese) for more details and examples.
+
+Contributing
+------------
+
+1. Gitee repository: [hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
+2. Issues and pull requests are welcome. [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
+
+=======
+hanzibox
+基于LaTeX3的汉字练习宏包
+=======
+
+`hanzibox`是一个用LaTeX3开发的LaTeX宏包，它提供了`\hanzibox`和`\hanzidialog` 两个命令。这两个命令分别用于排版汉字学习中带有或不带田字格、米字格等背景格子的汉字，并可以根据需要在汉字正上方显示拼音，在正下方显示译文。其中，`\hanzibox`命令能够根据汉字自动调用`xpinyin`宏包的`\xpinyin*`命令实现汉字注音。并且`\hanzibox`命令提供了`\hanzibox*`星号版本，其注音功能是通过自动调用`xpinyin`宏包的`\pinyin`命令实现的。`\hanzidialog`命令的注音功能是通过在拼音选项中手动插入`xpinyin`宏包`\pinyin`命令实现的。
+
+`hanzibox` 是一个用于学习汉字书写与发音的工具，可以用于汉字学习教案、演示文稿、习题册等文档工作。
+
+该宏包的开发灵感源自[Jan Vorisek的hanzibox宏包](https://github.com/janvorisek/chinese-latex-utilities)。但对`\hanzibox`和`\hanzidialog`命令重新进行了设计，并参考[zitie字贴宏包](https://www.ctan.org/pkg/zitie)重新用`l3draw`宏包设计了背景格子。同时，新的宏包也提供了更多命令选项和参数，以期更好地控制排版结果。
+
+目前，`hanzibox.sty`宏包仅支持XeTeX编译引擎，并且只支持UTF-8编码的LaTeX源文件。
+
+可以通过阅读宏包手册(中文)以也解该宏包更多的使用细节和使用样例。
+
+###  参与贡献
+---------------------
+1. 本项目由西北农林科技大学信息工程学院耿楠创建和维护
+2. 如果您愿意一同参与工作(不计报酬，免费自由)，请及时与作者联系
+3. 项目的gitee仓库地址：[hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
+4. 如果您有任何改进意见或者功能需求，欢迎提交 [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) 或 [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls)。
+
+Copyright and Licence
+---------------------
+
+    Copyright (C) 2020-2021 by Nan Geng <nangeng@nwafu.edu.cn>
+    ----------------------------------------------------------------------
+
+    This work may be distributed and/or modified under the
+    conditions of the LaTeX Project Public License, either
+    version 1.3c of this license or (at your option) any later
+    version. This version of this license is in
+       http://www.latex-project.org/lppl/lppl-1-3c.txt
+    and the latest version of this license is in
+       http://www.latex-project.org/lppl.txt
+    and version 1.3 or later is part of all distributions of
+    LaTeX version 2005/12/01 or later.
+
+    This work has the LPPL maintenance status "maintained".
+
+    The Current Maintainer of this work is Nan Geng.
+
+    This package consists of the file  hanzibox.dtx,
+                 and the derived files hanzibox.sty,
+                                       hanzibox.pdf,
+                                       hanzibox.ins,
+                                       README.md (this file).
+
+%</readme>
+%<*internal>
+\fi
+\begingroup
+  \def\temp{LaTeX2e}
+\expandafter\endgroup\ifx\temp\fmtname\else
+\csname fi\endcsname
+%</internal>
+%<*install>
+
+\input ctxdocstrip %
+
+\let\MetaPrefix\relax
+
+\preamble
+
+    Copyright (C) 2020-2021 by Nan Geng <nangeng@nwafu.edu.cn>
+--------------------------------------------------------------------------
+
+    This work may be distributed and/or modified under the
+    conditions of the LaTeX Project Public License, either
+    version 1.3c of this license or (at your option) any later
+    version. This version of this license is in
+       http://www.latex-project.org/lppl/lppl-1-3c.txt
+    and the latest version of this license is in
+       http://www.latex-project.org/lppl.txt
+    and version 1.3 or later is part of all distributions of
+    LaTeX version 2005/12/01 or later.
+
+    This work has the LPPL maintenance status "maintained".
+
+    The Current Maintainer of this work is Nan Geng.
+
+--------------------------------------------------------------------------
+
+\endpreamble
+
+\postamble
+
+    This package consists of the file  hanzibox.dtx,
+                 and the derived files hanzibox.sty,
+                                       hanzibox.pdf,
+                                       hanzibox.ins,
+                                       README.md.
+\endpostamble
+
+\declarepostamble\emptypostamble
+\endpostamble
+
+\def\MetaPrefix{-- }
+
+
+\let\MetaPrefix\DoubleperCent
+
+\generate
+  {
+%</install>
+%<*internal>
+    \usedir{source/xelatex/hanzibox}
+    \file{hanzibox.ins} {\from{\jobname.dtx}{install}}
+%</internal>
+%<*install>
+    \usedir{xetex/xelatex/hanzibox}
+    \file{hanzibox.sty} {\from{\jobname.dtx}{package}}
+    \nopreamble\nopostamble
+    \usedir{doc/xelatex/hanzibox}
+    \file{README.md}   {\from{\jobname.dtx}{readme}}
+  }
+
+\endbatchfile
+%</install>
+%<*internal>
+\fi
+%</internal>
+%<package>\NeedsTeXFormat{LaTeX2e}[2020/10/01]
+%<package>\RequirePackage{expl3}
+%<+package>\GetIdInfo$Id: hanzibox.dtx 2.1.0 2021-09-30 08:00:00 +0800 Nan Geng <nangeng@nwafu.edu.cn> $
+%<package>  {Boxed Chinese characters with Pinyin above and translation below.}
+%<package>\ProvidesExplPackage{\ExplFileName}
+%<package>  {\ExplFileDate}{\ExplFileVersion}{\ExplFileDescription}
+%<*driver>
+\documentclass{ctxdoc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{xcolor-material}
+\usepackage{hanzibox}
+\renewcommand*\marg[1]{\{\meta{#1}\}}
+\renewcommand*\oarg[1]{[\meta{#1}]}
+\renewcommand*\parg[1]{(\meta{#1})}
+\NewDocumentCommand{\init}{+v}{\hspace{\fill}初始值~=~\textcolor{blue}{\bfseries#1}}
+\DeclareDocumentCommand\opt{m}{\texttt{#1}}
+\DeclareDocumentCommand\kvopt{mm}
+  {\texttt{#1\breakablethinspace=\breakablethinspace#2}}
+\def\breakablethinspace{\hskip 0.16667em\relax}
+\begin{document}
+  \DisableImplementation
+  \EnableImplementation
+  \DocInput{\jobname.dtx}
+  \IndexLayout
+  \PrintChanges
+  \PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \changes{v1.0.0}{2021/09/18}{开始编写模板}
+% \changes{v2.0.0}{2021/09/25}{基于l3draw重新设计}
+% \changes{v2.0.0}{2021/09/28}{重新编写README.md内容}
+%
+% \CheckSum{0}
+% \GetFileId{hanzibox.sty}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \title{\bfseries\pkg{hanzibox}：田字格-米字格汉字练习宏包}
+% \author{耿楠\\ \path{nangeng@nwafu.edu.cn}}
+% \date{\filedate\qquad\fileversion\thanks{\url{https://gitee.com/nwafu_nan/hanzibox-l3}.}}
+% \maketitle
+%
+% \changes{v2.0.0}{2021/09/28}{修订说明文档}
+%
+% \begin{documentation}
+%
+% \begin{abstract}
+%
+% \pkg{hanzibox} 是一个用\LaTeX3开发的 \LaTeX 宏包，它提供了\tn{hanzibox}和\tn{hanzidialog}
+% 两个命令。这两个命令用于输出汉字学习中带有或不带田字格、米字格等背景格子的汉字，
+% 并可以根据需要在汉字正上方显示拼音，在正下方显示译文。
+% 其中，\tn{hanzibox}命令能够根据汉字利用\pkg{xpinyin}宏包实现汉字注音。
+% 同时，\tn{hanzibox}命令还提供了\tn{hanzibox*}星号版本，以实现手动注音功能。
+% \tn{hanzidialog}命令的注音功能则是通过在其拼音选项中手动插入
+% \pkg{xpinyin}宏包的\tn{pinyin}命令实现。
+%
+% \end{abstract}
+%
+% \section{简要说明}
+%
+% \pkg{hanzibox} 是一个用于输出汉字学习中的田字格、米字格等背景，并在汉字正上方显示拼音，
+% 在正下方显示译文。当然，也可以根据需要隐藏拼音、汉字或译文，还可以选择性地隐藏拼音中的
+% 声母、韵母或音调，从而有效实现汉字学习中的素材准备。
+%
+% 使用\pkg{hanzibox}宏包的\LaTeX 源文件需采用 \texttt{UTF-8}编码，并且需使用\XeLaTeX 进行编译。
+%
+% \pkg{hanzibox} 依赖 \package{l3kernel} 、\package{l3packages}、\package{l3draw}和\package{xpinyin}宏包。
+%
+% \section{用户接口}
+%
+% \begin{function}[added=2021-09-18,updated=2021-09-30]{\hanzibox,\hanzibox*}
+%   \begin{syntax}
+%     \tn{hanzibox}  \oarg{外观选项} \Arg{汉字} \oarg{拼音选项} \oarg{译文选项}
+%     \tn{hanzibox*} \oarg{外观选项} \Arg{汉字} \oarg{拼音选项} \oarg{译文选项}
+%   \end{syntax}
+%   排版汉字，并根据选项内容在顶部排版拼音，在底部排版译文。\\
+%   其中，\Arg{汉字}可以留空，\oarg{外观选项}用于设置盒子外观；
+%   \tn{hanzibox}命令中的\oarg{拼音选项}无效，可以省略，也可以留空；
+%   \oarg{译文选项}可以是任意文本，需要注意的是，当需要\oarg{译文选项}时，
+%   \oarg{拼音选项}可以留空，但不能省略。
+%   注音由\pkg{xpinyin}宏包自动根据汉字获得，此时，可能会存在多音字等问题，
+%   其调整详情请参阅\pkg{xpinyin}宏包说明。星号命令\tn{hanzibox*}用于手动排版拼音。
+%
+%   排版样式可通过\tn{hanziboxset}命令或\tn{hanzibox}\oarg{外观选项}的key-value进行设置。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.40\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{fillcolor=yellow!30, charcolor=red,
+%       xscale=1.5,yscale=1.5,resize=real,framecolor=red}
+%     \hanzibox[frametype=none]{我}
+%     \hanzibox[frametype=口  ]{我}[][吾]
+%     \hanzibox[frametype=十  ]{我}[wo3][俺]
+%     \hanzibox[frametype=×   ]{我}[wo2][爷]
+%     \hanzibox[frametype=田  ]{我}[wo1][愚]
+%     \hanzibox[frametype=米  ]{我}[ni3][奴]
+%     \hanzibox[frametype=咪  ]{我}[ta1][山人]
+%   \end{SideBySideExample}
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.40\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{xscale=1.5,yscale=1.5,resize=real}
+%     \hanzibox*[frametype=none]{我}[wo3][me]
+%     \hanzibox*[frametype=口  ]{我}[wo3][吾]
+%     \hanzibox*[frametype=十  ]{我}[wo3][俺]
+%     \hanzibox*[frametype=×   ]{我}[wo3][爷]
+%     \hanzibox*[frametype=田  ]{我}[wo2][愚]
+%     \hanzibox*[frametype=米  ]{我}[ni3][奴]
+%     \hanzibox*[frametype=咪  ]{我}[ta5][山人]
+%   \end{SideBySideExample}
+% \end{function}
+%
+% \begin{function}[added=2021-09-18,updated=2021-09-28]{\hanzidialog}
+%   \begin{syntax}
+%     \tn{hanzidialog} \oarg{外观选项} \Arg{汉字} \oarg{拼音选项} \oarg{译文选项}
+%   \end{syntax}
+%   排版汉字，并根据选项内容在顶部排版拼音，在底部排版译文。\\
+%   其中，\Arg{汉字}可以留空，\oarg{拼音选项}可以是任意文本；\oarg{译文选项}可以是任意文本。
+%   \oarg{拼音选项}和\oarg{译文选项}都可以留空，也可以省略，
+%   但当需要\oarg{译文选项}时，\oarg{拼音选项}可以留空，不能省略。
+%   如果是汉语拼音则需要手动使用\pkg{xpinyin}宏包的\tn{pinyin}命令，
+%   排版样式可能通过\tn{hanziboxset}命令或\tn{hanzidialog}\oarg{外观选项}的key-value进行设置。
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.25\linewidth,gobble=5]
+%     \centering
+%     \hanzidialog{王老师}[Wang \pinyin{lao3shi1}][teacher wang]
+%
+%     \hanzidialog[frametype=田]{王老师}[Wang \pinyin{lao3shi1}]
+%                 [王先生]
+%
+%     \hanzidialog[height=1cm,frametype=咪,framecolor=red,resize=real]
+%                 {王老师}[Wang \pinyin{lao3shi1}][王先生]
+%
+%   \end{SideBySideExample}
+% \end{function}
+%
+% \begin{function}[added=2021-09-20,updated=2021-09-24]{\hanziboxset}
+%   \begin{syntax}
+%     \tn{hanziboxset} \marg{键值列表}
+%   \end{syntax}
+%   \tn{hanziboxset} 的参数是一组由(英文)逗号隔开的选项列表，
+%   列表中的选项通常是 \kvopt{\meta{key}}{\meta{value}} 形式。
+%   部分选项的\meta{value} 可以省略。对于同一项，后续设置会覆盖以前的设置。
+%   在下文的说明中，多数选项都设有默认值。
+%
+%   \tn{hanziboxset} 采用 \LaTeX3 风格的键值设置，支持不同类型以及多种
+%   层次的选项设定。键值列表中，“|=|”左右的空格不影响设置；但需注意，
+%   参数列表中\textbf{不可以出现空行}。
+%
+%   布尔型的参数 \kvopt{\meta{选项}}{true} 中的“|= true|”可以省略。
+% \end{function}
+%
+% \section{选项说明}
+%
+%   本宏包提供了一系列选项，以实现汉字盒子外观样式设置。
+%   载入\pkg{hanzibox}宏包后，以下选项均可通过统一命令\tn{hanziboxset}进行设置。
+%   同时，这些选项也可以通过\tn{hanzibox}或\tn{hanzidialog}命令的\oarg{外观选项}进行设置。
+%
+% \begin{function}[added=2021-09-24,updated=2021-09-24]{basechar,zihao}
+%   \begin{syntax}
+%     basechar = \meta{CJK char} \init{好}
+%     zihao    = \meta{字号}     \init{4}
+%   \end{syntax}
+%   \opt{basechar} 设置基字符，用于计算缩放比例，
+%   基字符不同时，即使给定相同的缩放比例，其实际缩放比例也可能不同。
+% 
+%   \opt{zihao} 设置计算缩放比例时字号大小。
+% \end{function}
+%
+% \begin{function}[added=2021-09-27,updated=2021-09-28]{pinyinf,charf,tranf}
+%   \begin{syntax}
+%     pinyinf = \meta{格式命令}   \init{\normalsize}
+%     charf   = \meta{格式命令}   \init{\tiny}
+%     tranf   = \meta{格式命令}   \init{\tiny}
+%   \end{syntax}
+%   分别用于设置拼音、汉字、译文的排版格式。
+% \end{function}
+%
+% \begin{function}[added=2021-09-24,updated=2021-09-24]{frametype,resize}
+%  \begin{syntax}
+%    frametype = <none|口|十|田|米|咪> \init{none}
+%    resize    = <none|real|base> \init{none}
+%  \end{syntax}
+%  \opt{frametype} 设置汉字盒子样式。可用值的效果与选项值文字形状类似：\verb|口|--仅方框，
+%  \verb|十|--仅中间的横线和竖线，\verb|田|--常见的田字格，\verb|米|--十字格再加上斜的两条对角线，
+%  \verb|咪|--常见的米字格。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.50\linewidth,gobble=5]
+%     \centering
+%     \hanzibox[frametype=none]{无}
+%     \hanzibox[frametype=口  ]{口}
+%     \hanzibox[frametype=十  ]{十}
+%     \hanzibox[frametype=田  ]{田}
+%     \hanzibox[frametype=米  ]{米}
+%     \hanzibox[frametype=咪  ]{咪}
+%   \end{SideBySideExample}
+%
+%  \opt{resize} 设置缩放方式，\opt{real}--使用字符实际宽高缩放，
+%  \opt{base}--使用 \opt{basechar} 设置的字符的宽高缩放，
+%
+%  以下为宽度设置为 1cm 时的缩放情况。
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.45\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{width=1cm,frametype=咪,
+%                  framecolor=black}
+%     \hanzibox[resize=none  ]{无}
+%     \hanzibox[resize=real  ]{实}
+%     \hanzibox[resize=base  ]{基}
+%   \end{SideBySideExample}
+% \end{function}
+%
+% \begin{function}[added=2021-09-24,updated=2021-09-24]{
+%   xscale,yscale,scale,
+%   width,height}
+%   \begin{syntax}
+%     xscale = \meta{scale ratio} \init{1}
+%     yscale = \meta{scale ratio} \init{1}
+%     scale  = \meta{scale ratio}
+%     width  = \meta{dim}
+%     height = \meta{dim}
+%   \end{syntax}
+%   设置缩放比例和盒子宽高。
+%
+%   宽高具有更高的优先级，即若比例和宽高都设置了，则使用宽高来计算。
+%   宽高都为0cm视为未设置，二者有一大于0cm，视为设置了宽高。
+%
+%   此处的宽高和最终的宽高可能略有差异，最终的宽高保存在
+%   \tn{hanziboxwidth} 和 \tn{hanziboxheight} dim寄存器中。
+% \end{function}
+%
+% \begin{function}[added=2021-09-24,updated=2021-09-24]{
+%   linewidth,
+%   dashpattern,
+%   framearc,
+%   framearc*
+%   }
+%   \begin{syntax}
+%     linewidth   = \meta{dim} \init{0.4pt}
+%     dashpattern = \meta{ dim1, dim2, ... }
+%     framearc    = \meta{dim}
+%     framearc*   = \{ \marg{dim1} \marg{dim2} \}
+%   \end{syntax}
+%   设置边框线宽、线型、转角样式。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.28\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{width=1.0cm,resize=real,framecolor=red}
+%     \hanzibox[linewidth=1pt,frametype=口]{好}
+%     \hanzibox[dashpattern={1.5mm,1mm,2mm,1.5mm},frametype=田]{好}
+%     \hanzibox[framearc=1mm,frametype=口]{好} \\
+%     \hanzibox[framearc=1mm,frametype=咪]{好}
+%     \hanzibox[framearc*={1mm}{2mm},frametype=口]{好}
+%     \hanzibox[framearc*={2mm}{1mm},frametype=咪]{好}
+%   \end{SideBySideExample}
+% \end{function}
+%
+% \begin{function}[added=2021-09-24,updated=2021-09-24]{
+%   framecolor,
+%   framecolor*,
+%   charcolor,
+%   charcolor*,
+%   fillcolor,
+%   fillcolor*
+%   }
+%   \begin{syntax}
+%     framecolor  = \meta{color expr} \init{black}
+%     framecolor* = \meta{model(s)} \meta{value(s)}
+%     charcolor   = \meta{color expr} \init{black}
+%     charcolor*  = \meta{model(s)} \meta{value(s)}
+%     fillcolor   = \meta{color expr}
+%     fillcolor*  = \meta{model(s)} \meta{value(s)}
+%   \end{syntax}
+%   分别设置格子线条、字符和填充颜色。
+%   颜色名称仅支持 \LaTeX3 定义的 black, white, red, green, blue, cyan, magenta 和 yellow。
+%   颜色模型和表达式也应使用 \LaTeX3 支持的模型和表达式，详见 \pkg{interface3.pdf} 文档。
+%
+%   若要去掉 \opt{fillcolor}，应将其置为空(\verb|fillcolor={}|)，而不是将其设置为white(白色)。
+% \end{function}
+%
+% \begin{function}[added=2021-09-24,updated=2021-09-24]{initial,vowel,tone}
+%   \begin{syntax}
+%     initial = <\TTF> \init{true}
+%     vowel   = <\TTF> \init{true}
+%     tone    = <\TTF> \init{true}
+%   \end{syntax}
+%   分别用于设置是否输出拼音的声母、韵母和声调，默认值为\textbf{true}。
+%   该选项仅对\tn{hanzibox}命令有效。
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.33\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{frametype=咪,framecolor=red,
+%                  fillcolor=yellow!40,resize=real}
+%     \hanzibox{明月几时有}[]
+%       [How long will the full moon appear?]\\[0.5ex]
+%     \hanzibox[initial=false]{明月几时有}[]
+%       [How long will the full moon appear?]\\[0.5ex]
+%     \hanzibox[vowel=false]{明月几时有}[]
+%       [How long will the full moon appear?]\\[0.5ex]
+%     \hanzibox[tone=false]{明月几时有}[]
+%       [How long will the full moon appear?]\\[0.5ex]
+%     \hanzibox[initial=false,vowel=false]{明有几时有}
+%       [][How long will the full moon appear?]
+%   \end{SideBySideExample}
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.28\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{frametype=咪,framecolor=red,fillcolor=yellow!40,
+%                  charf=\Huge,resize=real}
+%     \hanzibox*[initial=false]{我}[wo3][吾]
+%     \hanzibox*[initial=true,vowel=false]{我}[wo3][吾]
+%     \hanzibox*[initial=true,vowel=true,tone=false]{我}[wo3][不才]
+%   \end{SideBySideExample}
+% \end{function}
+%
+% \begin{function}[added=2021-09-21,updated=2021-09-26]{pinyin,hanzi,tran}
+%   \begin{syntax}
+%     pinyin = <\TTF> \init{true}
+%     hanzi = <\TTF>  \init{true}
+%     tran = <\TTF>   \init{true}
+%   \end{syntax}
+%   分别用于设置是否输出拼音、汉字和译文，默认值为\textbf{true}。
+%   该选项对\tn{hanzidialog}命令无效。
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.33\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{frametype=咪,framecolor=red,charf=\large,
+%                  fillcolor=yellow!40}
+%     \hanzibox[pinyin=false]{明月几时有}[]
+%       [How long will the full moon appear?]\\[0.5ex]
+%     \hanzibox[hanzi=false]{明月几时有}[]
+%       [How long will the full moon appear?]\\[0.5ex]
+%     \hanzibox[tran=false]{明月几时有}[]
+%       [How long will the full moon appear?]\\[0.5ex]
+%   \end{SideBySideExample}
+% \end{function}
+%
+% \changes{v2.0.0}{2021/09/28}{在说明文档中添加应用实例}
+%
+% \section{应用实例}
+%
+% \pkg{hanzibox}宏包可以广泛用于汉字学习的练习中。
+%
+% \subsection{拼一拼---写一写练习}
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.45\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{frametype=田,framecolor=blue}
+%     \hanzibox{门}\hanzibox[hanzi=false]{口}\hfill
+%     \hanzibox{生}\hanzibox[hanzi=false]{日}\hfill
+%     \hanzibox{题}\hanzibox[hanzi=false]{目}\hfill
+%     \hanzibox[hanzi=false]{田}\hanzibox{野}
+%   \end{SideBySideExample}
+%
+% \subsection{标注声母练习}
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.35\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{frametype=咪,framecolor=red,charcolor=red,
+%                  charf=\Huge,pinyinf=\small,initial=false}
+%     \hanzibox{门口}\hfill
+%     \hanzibox{生日}\\
+%     \hanzibox{题目}\hfill
+%     \hanzibox{田野}
+%   \end{SideBySideExample}
+%
+% \subsection{标注韵母练习}
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.35\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{frametype=咪,framecolor=red,charcolor=red,
+%                  charf=\Huge,pinyinf=\small,vowel=false}
+%     \hanzibox{门口}\hfill
+%     \hanzibox{生日}\\
+%     \hanzibox{题目}\hfill
+%     \hanzibox{田野}
+%   \end{SideBySideExample}
+%
+% \subsection{标注声调练习}
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.35\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{frametype=咪,framecolor=red,charcolor=red,
+%                  charf=\Huge,pinyinf=\small,tone=false}
+%     \hanzibox{门口}\hfill
+%     \hanzibox{生日}\\
+%     \hanzibox{题目}\hfill
+%     \hanzibox{田野}
+%   \end{SideBySideExample}
+%
+% \subsection{随机生成生词练习}
+%
+% 假设提前准备了生词表\verb!\clist_set:Nn \l__words_clist!，则可以使用
+% \LaTeX3的随机函数随机生成生词练习题(每次编译可以得到不同的结果)。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.30\linewidth,gobble=5]
+%     \ExplSyntaxOn
+%     \clist_set:Nn \l__words_clist
+%       {
+%         {铅笔} , {橡皮} , {报纸} ,
+%         {头发} , {耳朵} , {眼睛} ,
+%         {大象} , {蚂蚁} , {松鼠} ,
+%         {男孩} , {同学} , {兄弟} ,
+%         {学生} , {医生} , {护士} ,
+%         {老师} , {警察} , {羊肉} ,
+%         {窗户} , {镜子} , {沙发}
+%       }
+%     \hanziboxset{frametype=咪,framecolor=red,charcolor=red,
+%                  charf=\huge,pinyinf=\footnotesize,hanzi=false}
+%     \centering
+%     \int_step_inline:nn {6}
+%       {
+%         \hanzibox{\clist_rand_item:N \l__words_clist}\\
+%       }
+%     \ExplSyntaxOff
+%   \end{SideBySideExample}
+%
+% \subsection{随机生成拼音练习}
+%
+% 假设提前准备了声母和韵母表，则可以使用
+% \LaTeX3的随机函数随机生成拼音练习题(每次编译可以得到不同的结果)。
+% 此时，若生成的拼音不正确，可让学生填写“无”。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.25\linewidth,gobble=5]
+%     \ExplSyntaxOn
+%     \int_new:N \l__tone_int
+%     \clist_set:Nn \l__initials_clist
+%       {
+%         {zh} , {ch} , {sh} , {b} , {p} , {m} , {f} ,
+%         {d}  , {t}  , {n}  , {l} , {g} , {k} , {h} ,
+%         {j}  , {q}  , {x}  , {r} , {z} , {c} , {s} ,
+%         {y}  , {w}
+%       }
+%     \clist_set:Nn \l__vowel_clist
+%       {
+%         {iang} , {iong} , {uang} , {ueng} , {ang} , {eng} , {ing} ,
+%         {ong}  , {uai}  , {uan}  , {uai}  , {uei} , {iao} , {iou} ,
+%         {ian}  , {van}  , {uen}  , {ai}   , {ei}  , {ua}  , {uo}  ,
+%         {ui}   , {ao}   , {ou}   , {iu}   , {ie}  , {ve}  , {er}  ,
+%         {an}   , {en}   , {in}   , {un}   , {vn}  , {a}   , {e}   ,
+%         {i}    , {o}    , {u}    , {v}
+%       }
+%     \hanziboxset{frametype=咪,framecolor=red,charcolor=red,
+%                  charf=\huge,pinyinf=\footnotesize,hanzi=false}
+%     \centering
+%     \int_step_inline:nn {10}
+%       {
+%         \int_zero:N \l__tone_int
+%         \int_set:Nn \l__tone_int {\int_rand:n {5}}
+%         \hanzibox*{好}[
+%           \clist_rand_item:N \l__initials_clist
+%           \clist_rand_item:N \l__vowel_clist
+%           \int_use:N \l__tone_int
+%          ]\\
+%       }
+%     \ExplSyntaxOff
+%   \end{SideBySideExample}
+%
+% \subsection{生成汉字书写练习格子纸}
+%
+% 可以通过将\tn{hanzibox}命令的\Arg{汉字}参数留空，
+% 或将\tn{hanzibox}、\tn{hanzibox*}命令的\verb!hanzi!选项置为
+% \verb!false!(\verb!hanzi=false!)，从而生成空白背景格子，
+% 再根据需要通过循环的方式生成指定行数和列数的
+% 汉字书写练习用格子纸。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.50\linewidth,gobble=5]
+%     \hanziboxset{frametype=咪,framecolor=red,
+%        charcolor=red,charf=\huge}
+%     \centering
+%     \ExplSyntaxOn
+%     \int_step_inline:nn {8}
+%       {
+%         \int_step_inline:nn {6}
+%           {
+%             \hanzibox{}
+%             \hspace*{-0.4pt}
+%           }
+%         \par\nointerlineskip\vspace*{-3.3pt}
+%      }
+%     \ExplSyntaxOff
+%   \end{SideBySideExample}
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.50\linewidth,gobble=5]
+%     \hanziboxset{frametype=咪,framecolor=red,
+%        charcolor=red,charf=\huge,hanzi=false}
+%     \centering
+%     \ExplSyntaxOn
+%     \int_step_inline:nn {8}
+%       {
+%         \int_step_inline:nn {6}
+%           {
+%             \hanzibox*{国}
+%             \hspace*{-0.4pt}
+%           }
+%         \par\nointerlineskip\vspace*{-6.30pt}
+%      }
+%     \ExplSyntaxOff
+%   \end{SideBySideExample}
+%
+% \subsection{生成诗词注音}
+%
+% 可以通过自动注音生成带有注音的诗词排版，
+% 但当有多音字时，需要使用\pkg{xpinyin}宏包的\tn{setpinyin}命令
+% 为多音字设置正确的读音。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.50\linewidth,gobble=5]
+%     \setpinyin{长}{chang2}
+%     \setpinyin{尽}{jin4}
+%     \hanziboxset{frametype=咪,framecolor=red,
+%       charf=\huge,pinyinf=\footnotesize,
+%       charcolor=green!40!black}
+%     \centering
+%     \hanzibox{故人西辞黄鹤楼}
+%     \hanzibox{烟花三月下扬州}
+%     \hanzibox{孤帆远影碧空尽}
+%     \hanzibox{唯见长江天际流}
+%   \end{SideBySideExample}
+%
+% \subsection{诗词手动注音}
+%
+% 也可以使用\tn{hanzibox*}命令实现诗词手动注音，
+% 此时，可以通过留空拼音或文字构成注音或根据拼音写汉字练习。
+% 但需要注意，目前只能在一行文本的尾部实现留空练习。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.33\linewidth,gobble=5]
+%     \hanziboxset{frametype=咪,framecolor=red,charf=\Large,
+%       charcolor=green!40!black,}
+%     \centering
+%     \hanzibox*{故人西辞黄鹤楼}[gu4ren2xi1ci2huang2he2lou2]
+%     \hanzibox*{烟花三月下扬州}[yan1hua1san1yue4]
+%     \hanzibox*{孤帆远影      }[gu1fan1yuan3ying3bi4kong1jin4]
+%     \hanzibox*{}[wei2jian4chang2jiang1tian1ji4liu2]
+%   \end{SideBySideExample}
+%
+% \end{documentation}
+%
+% \StopEventually{}
+%
+% \begin{implementation}
+%
+% \section{代码实现}
+%
+% 本宏包使用 \LaTeX3 语法编写，依赖 \pkg{expl3} 环境，
+% 并需调用 \pkg{l3packages}、\pkg{l3draw}、\pkg{xpinyin}等相关宏包。
+%
+% 按照 \LaTeX3 语法，代码中的空格、换行、回车与制表符会完全被忽略，
+% 而下划线“|_|”和冒号“|:|”则可作为一般字母使用。
+% 正常的空格可以使用“|~|”代替；至于 |~| 原来所表示的“带子”，
+% 则要用 \LaTeXe{} 的原始命令 \tn{nobreakspace} 代替。
+%
+% 以下代码中有一些形如 \textcolor[HTML]{2E3191}{\textsf{<*package>}}
+% 的标记，这是 \pkg{DocStrip} 中的“guard”，用来选择性地提取文件。
+% “\textsf{*}”和“\textsf{/}”分别表示该部分的开始和结束。不含
+% “\textsf{*}”和“\textsf{/}”的 guard 出现在行号右侧，它们用来确定
+% 单独一行代码的归属。这些 guard 的颜色深浅不一，用以明确嵌套关系。
+%
+% 另有若干形如 \textcolor[HTML]{AD1457}{\textsf{<@@=hanzibox>}} 的 guard，
+% 它们由 \pkg{l3docstrip} 定义，用来标识名字空间（模块）。
+%
+% \subsection{环境检测与准备}
+%
+%    \begin{macrocode}
+%<*package>
+%<@@=hanzibox>
+%    \end{macrocode}
+%
+% 载入必要的宏包
+%
+%    \begin{macrocode}
+
+\RequirePackage { xtemplate, l3keys2e, l3draw, xparse }
+
+%    \end{macrocode}
+%
+% 检查LaTeX3宏包版本
+%
+%    \begin{macrocode}
+% \clist_map_inline:nn { xtemplate, l3keys2e }
+%   {
+%     \@ifpackagelater {#1} { 2020/07/17 }
+%       { } { \msg_error:nnn { hanzibox } { l3-too-old } {#1} }
+%   }
+% \msg_new:nnn { hanzibox } { l3-too-old }
+%   {
+%     Package~ "#1"~ is~ too~ old. \\\\
+%     Please~ update~ an~ up-to-date~ version~ of~ the~ bundles \\
+%     "l3kernel"~ and~ "l3packages"~ using~ your~ TeX~ package \\
+%     manager~ or~ from~ CTAN.
+%   }
+%
+%    \end{macrocode}
+%
+% \changes{v2.1.1}{2021/10/03}{修订盒子高度计算函数的expl3版本兼容问题}
+%
+% 判断\tn{box_ht_plus_dp:N}函数是否存在，若不存在，则定义该函数。
+% 为了解决expl3的旧版本兼容问题。
+% 摘录于\url{https://ask.latexstudio.net/ask/question/3773.html}。
+%
+%    \begin{macrocode}
+\cs_if_free:NT \box_ht_plus_dp:N
+  {
+    \cs_new_protected:Npn \box_ht_plus_dp:N #1
+      { \tex_dimexpr:D \box_ht:N #1 + \box_dp:N #1 \scan_stop: }
+  }
+%    \end{macrocode}
+%
+% 检查编译引擎
+%
+%    \begin{macrocode}
+\sys_if_engine_xetex:F
+  {
+    \msg_fatal:nnx { hanzibox } { unsupported-engine }
+      { \c_sys_engine_str }
+  }
+\msg_new:nnn { hanzibox } { unsupported-engine }
+  {
+    The~ hanzibox~ packages~ requires~ XeTeX. \\\\
+    "#1"~ is~ not~ supported~ at~ present.~ You~ must~ change \\
+    your~ typesetting~ engine~ to~ "xelatex"~ or~ "lualatex".
+  }
+
+%    \end{macrocode}
+%
+% 载入xpinyin宏包
+%
+%    \begin{macrocode}
+\RequirePackage { xpinyin }
+
+%    \end{macrocode}
+%
+% \subsection{用户接口}
+%
+% \changes{v1.1.0}{2021/09/22}{为用户命令添加组限制}
+% \changes{v2.0.0}{2021/09/26}{调整星号命令为手动拼音注音}
+% 背景盒子由l3draw实现，
+% 其设计思路和部分源码来自\LaTeX 字帖宏包(\url{https://www.ctan.org/pkg/zitie})。
+%
+% \begin{macro}{\hanzibox}
+% 自动拼音汉字盒子命令。
+%    \begin{macrocode}
+\NewDocumentCommand{\hanzibox}{ s O{} m O{} O{} }
+  {
+    \IfBooleanTF{#1}
+      {
+        \bool_set_false:N \l_@@_autopinyin_bool
+      }{
+        \bool_set_true:N  \l_@@_autopinyin_bool
+      }
+      \group_begin:
+        \@@_handle:nnnn { #2 } { #3 } { #4 } { #5 }
+      \group_end:
+  }
+
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\hanzidialog}
+% 手动汉字盒子命令。
+%    \begin{macrocode}
+\NewDocumentCommand{\hanzidialog}{O{} m O{} O{} }
+  {
+    \group_begin:
+      \bool_set_false:N \l_@@_autopinyin_bool
+      \@@_dialog:nnnn { #1 } { #2 } { #3 } { #4 }
+    \group_end:
+  }
+
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{内部变量声明}
+%
+% \changes{v1.1.0}{2021/09/21}{添加缩放比例，前景/背景色，隐藏控制变量。}
+% \changes{v2.0.0}{2021/09/24}{根据l3draw的需要重新设计各个变量。}
+% \changes{v2.1.0}{2021/09/30}{添加记录拼音返回结果的clist变量。}
+%
+% \begin{variable}{\l_@@_autopinyin_bool,
+%   \l_@@_withinitial_bool,
+%   \l_@@_withvowel_bool,
+%   \l_@@_withtone_bool,
+%   \l_@@_withpinyin_bool,
+%   \l_@@_withhanzi_bool,
+%   \l_@@_withtran_bool,
+%   \l_@@_basebox_box,
+%   \l_@@_frame_type_tl,
+%   \g_@@_frame_list_clist,
+%   \l_@@_resize_method_tl,
+%   \g_@@_resize_method_clist,
+%   \l_@@_frame_size_dim,
+%   \l_@@_char_width_dim,
+%   \l_@@_char_height_dim,
+%   \l_@@_box_width_dim,
+%   \l_@@_box_height_dim,
+%   \l_@@_linewidth_dim,
+%   \l_@@_box_coffin,
+%   \l_@@_tmpa_coffin,
+%   \l_@@_tmpb_coffin,
+%   \hanziboxwidth,
+%   \hanziboxheight,
+%   \l_@@_pinyin_tl,
+%   \l_@@_tone_pinyin_clist,
+%   \l_@@_character_tl,
+%   \l_@@_translation_tl,
+%   \l_@@_pinyin_format_tl,
+%   \l_@@_character_format_tl,
+%   \l_@@_translation_format_tl,
+%   \l_@@_pinyin_int,
+%   \l_@@_character_int,
+%   \l_@@_translation_int,
+%   \l_@@_tone_int,
+%   \l_@@_pinyin_str,
+%   \l_@@_initial_tl,
+%   \l_@@_vowel_tl
+%  }
+% 定义变量。
+%
+%    \begin{macrocode}
+\bool_new:N   \l_@@_autopinyin_bool
+\bool_new:N   \l_@@_withinitial_bool
+\bool_new:N   \l_@@_withvowel_bool
+\bool_new:N   \l_@@_withtone_bool
+\bool_new:N   \l_@@_withpinyin_bool
+\bool_new:N   \l_@@_withhanzi_bool
+\bool_new:N   \l_@@_withtran_bool
+
+\box_new:N    \l_@@_basebox_box
+\tl_new:N     \l_@@_frame_type_tl
+\clist_new:N  \g_@@_frame_list_clist
+\tl_new:N     \l_@@_resize_method_tl
+\clist_new:N  \g_@@_resize_method_clist
+\dim_new:N    \l_@@_frame_size_dim
+\dim_new:N    \l_@@_char_width_dim
+\dim_new:N    \l_@@_char_height_dim
+\dim_new:N    \l_@@_box_width_dim
+\dim_new:N    \l_@@_box_height_dim
+\dim_new:N    \l_@@_linewidth_dim
+
+\clist_new:N  \l_@@_tone_pinyin_clist
+
+\coffin_new:N \l_@@_str_box_coffin
+\coffin_new:N \l_@@_box_coffin
+\coffin_new:N \l_@@_pinyin_box_coffin
+\coffin_new:N \l_@@_tran_box_coffin
+\coffin_new:N \l_@@_tmpa_coffin
+\coffin_new:N \l_@@_tmpb_coffin
+
+\dim_new:N    \hanziboxwidth
+\dim_new:N    \hanziboxheight
+
+\tl_new:N     \l_@@_pinyin_tl
+\tl_new:N     \l_@@_character_tl
+\tl_new:N     \l_@@_translation_tl
+\tl_new:N     \l_@@_pinyin_format_tl
+\tl_new:N     \l_@@_character_format_tl
+\tl_new:N     \l_@@_translation_format_tl
+\int_new:N    \l_@@_pinyin_int
+\int_new:N    \l_@@_character_int
+\int_new:N    \l_@@_translation_int
+
+\int_new:N    \l_@@_tone_int
+\str_new:N    \l_@@_pinyin_str
+\tl_new:N     \l_@@_initial_tl
+\tl_new:N     \l_@@_vowel_tl
+
+%    \end{macrocode}
+% \end{variable}
+%
+% \subsection{辅助函数}
+%
+% \subsubsection{设置填充色}
+%
+% \begin{macro}{\@@_aux_color_fill:}
+% 设置填充色
+%    \begin{macrocode}
+\cs_new_nopar:Nn \@@_aux_color_fill:
+  { }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection{计算盒子尺寸}
+%
+% \begin{macro}{\@@_calc_basechar_w_h:}
+% 计算基字符盒子宽和高
+%    \begin{macrocode}
+\cs_new:Npn \@@_calc_basechar_w_h:
+  {
+    \dim_set:Nn \l_@@_char_width_dim
+      {
+        \box_wd:N \l_@@_basebox_box
+      }
+    \dim_set:Nn \l_@@_char_height_dim
+      {
+        \box_ht_plus_dp:N \l_@@_basebox_box
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_coffin_ht_plus_dp:N}
+% 获取coffin盒子总高度
+%    \begin{macrocode}
+\cs_new_nopar:Npn \@@_coffin_ht_plus_dp:N #1
+  {
+    \coffin_ht:N #1 + \coffin_dp:N #1
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.0.0}{2021/09/28}{添加根据基字符格式计算外观盒子尺寸的函数}
+%
+% \begin{macro}{\@@_calc_frame_size:}
+% 计算外框长度(正方形，由基字符按charf选项设定的格式构造的盒子确定)
+%    \begin{macrocode}
+\cs_new:Npn \@@_calc_frame_size:
+  {
+    \hbox_set:Nn \l_tmpa_box
+      {
+        \tl_use:N \l_@@_character_format_tl
+        \tl_use:N \c_@@_basechar_tl
+      }
+
+    \dim_set:Nn \l_tmpa_dim
+      {
+        \box_wd:N \l_tmpa_box
+      }
+    \dim_set:Nn \l_tmpb_dim
+      {
+        \box_ht_plus_dp:N \l_tmpa_box
+      }
+
+    \dim_compare:nNnTF \l_tmpa_dim > \l_tmpb_dim
+      {
+        \dim_gset_eq:NN \l_@@_frame_size_dim \l_tmpa_dim
+      }
+      {
+        \dim_gset_eq:NN \l_@@_frame_size_dim \l_tmpb_dim
+      }
+
+    \dim_gadd:Nn \l_@@_frame_size_dim { 2pt }
+
+    \dim_gset_eq:NN \hanziboxwidth \l_@@_frame_size_dim
+    \dim_gset_eq:NN \hanziboxheight \l_@@_frame_size_dim
+
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection{定义边框样式}
+%
+% \begin{macro}{\@@_frame_type:n,\@@_frame_type_c:n}
+% 生成边框样式函数名称
+%    \begin{macrocode}
+\cs_new_nopar:Npn \@@_frame_type:n #1
+  {
+    @@_frame_construct_type_ #1 :nnnnnn
+  }
+\cs_new_nopar:Npn \@@_frame_type_c:n #1
+  {
+    \use:c
+      {
+        @@_frame_construct_type_ #1 :nnnnnn
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_new_frame_construct:nn}
+% 边框样式函数的定义函数。
+%    \begin{macrocode}
+\cs_new:Npn \@@_new_frame_construct:nn #1
+  {
+    \clist_put_right:Nn \g_@@_frame_list_clist {#1}
+    \cs_new:cn { \@@_frame_type:n {#1} }
+  }
+\@@_new_frame_construct:nn { none } { }
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+\@@_new_frame_construct:nn { 口 }
+  {
+    \color_stroke:n { hanziboxframecolor }
+    \draw_path_rectangle_corners:nn { #1, #2} { #3, #4}
+
+    \cs_if_eq:NNTF \@@_aux_color_fill: \c_empty_tl
+      {
+        \draw_path_use_clear:n { stroke }
+      }
+      {
+        \draw_path_use_clear:n { stroke , fill }
+      }
+  }
+
+\@@_new_frame_construct:nn { 十 }
+  {
+    \tl_if_empty:NF \l_@@_dash_pattern_tl
+      {
+        \exp_args:No \draw_dash_pattern:nn { \l_@@_dash_pattern_tl } { 0pt }
+      }
+    \color_stroke:n { hanziboxframecolor!30 }
+    \draw_path_moveto:n { (#3)/2, #2 }
+    \draw_path_lineto:n { #3/2, #4 }
+    \draw_path_moveto:n { #1, (#4)/2 }
+    \draw_path_lineto:n { #3, (#4)/2 }
+    \draw_path_use_clear:n { stroke }
+  }
+
+\@@_new_frame_construct:nn { × }
+  {
+    \tl_if_empty:NF \l_@@_dash_pattern_tl
+      {
+        \exp_args:No \draw_dash_pattern:nn { \l_@@_dash_pattern_tl } { 0pt }
+      }
+    \color_stroke:n { hanziboxframecolor!30 }
+    \draw_path_moveto:n { #1, #2 }
+    \draw_path_lineto:n { #3, #4 }
+    \draw_path_moveto:n { #1, #4 }
+    \draw_path_lineto:n { #3, #2 }
+    \draw_path_use_clear:n { stroke }
+  }
+
+\@@_new_frame_construct:nn { 田 }
+  {
+    \@@_frame_type_c:n { 口 } {#1} {#2} {#3} {#4} {#5} {#6}
+    \@@_frame_type_c:n { 十 } {#1} {#2} {#3} {#4} {#5} {#6}
+  }
+
+\@@_new_frame_construct:nn { 米 }
+  {
+    \@@_frame_type_c:n { × } {#1} {#2} {#3} {#4} {#5} {#6}
+    \@@_frame_type_c:n { 十 } {#1} {#2} {#3} {#4} {#5} {#6}
+  }
+
+\@@_new_frame_construct:nn { 咪 }
+  {
+    \@@_frame_type_c:n { 口 } {#1} {#2} {#3} {#4} {#5} {#6}
+    \@@_frame_type_c:n { × } {#1} {#2} {#3} {#4} {#5} {#6}
+    \@@_frame_type_c:n { 十 } {#1} {#2} {#3} {#4} {#5} {#6}
+  }
+%    \end{macrocode}
+%
+% \subsubsection{定义缩放方式}
+%
+% \begin{macro}{\@@_resize:n,\@@_resize_c:n}
+% 缩放方式命名函数
+%    \begin{macrocode}
+\cs_new_nopar:Npn \@@_resize:n #1
+  {
+    @@_processor_resize_ #1 :w
+  }
+\cs_new_nopar:Npn \@@_resize_c:n #1
+  {
+    \use:c
+      {
+        @@_processor_resize_ #1 :w
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_dim_gezero_dispatch:NNnnn,\@@_dim_gezero_dispatch:NNnnn,
+%               \@@_force_size_dispatch:nnn,\@@_force_size_dispatch:nnnn}
+% 定义缩放方式函数需要的辅助函数。
+%    \begin{macrocode}
+\cs_new:Npn \@@_dim_gezero_dispatch:NNnnn #1#2 #3#4#5
+  {
+    \dim_compare:nNnTF #1 > \c_zero_dim
+      { #3 }
+      {
+        \dim_compare:nNnTF #2 > \c_zero_dim
+          { #4 } { #5 }
+      }
+  }
+\cs_new:Npn \@@_dim_gezero_dispatch:NNnnnn #1#2 #3#4#5#6
+  {
+    \dim_compare:nNnTF #1 > \c_zero_dim
+      {
+        \dim_compare:nNnTF #2 > \c_zero_dim
+          { #3 } { #4 }
+      }
+      {
+        \dim_compare:nNnTF #2 > \c_zero_dim
+          { #5 } { #6 }
+      }
+  }
+\cs_new:Npn \@@_force_size_dispatch:nnn % height, width, none
+  {
+    \@@_dim_gezero_dispatch:NNnnn \l_@@_height_dim \l_@@_width_dim
+  }
+\cs_new:Npn \@@_force_size_dispatch:nnnn % both, height, width, none
+  {
+    \@@_dim_gezero_dispatch:NNnnnn \l_@@_box_height_dim \l_@@_box_width_dim
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_new_resize_method:nn}
+% 缩放方式函数的定义函数。
+%    \begin{macrocode}
+\cs_new:Npn \@@_new_resize_method:nn #1
+  {
+    \clist_put_right:Nn \g_@@_resize_method_clist {#1}
+    \cs_new:cpn { \@@_resize:n {#1} }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% 定义缩放方式函数。
+%    \begin{macrocode}
+\@@_new_resize_method:nn { none } { }
+
+\@@_new_resize_method:nn { real }
+  {
+    \@@_force_size_dispatch:nnnn
+      {
+        \coffin_resize:Nnn \l_@@_box_coffin
+                           \l_@@_box_width_dim
+                           \l_@@_box_height_dim
+      }
+      {
+        \coffin_scale:Nnn \l_@@_box_coffin
+          {
+            \dim_ratio:nn { \l_@@_box_height_dim }
+                          { \@@_coffin_ht_plus_dp:N \l_@@_box_coffin }
+          }
+          {
+            \dim_ratio:nn { \l_@@_box_height_dim }
+                          { \@@_coffin_ht_plus_dp:N \l_@@_box_coffin }
+          }
+      }
+      {
+        \coffin_scale:Nnn \l_@@_box_coffin
+          {
+            \dim_ratio:nn { \l_@@_box_width_dim }
+                          { \coffin_wd:N \l_@@_box_coffin }
+          }
+          {
+            \dim_ratio:nn { \l_@@_box_width_dim }
+                          { \coffin_wd:N \l_@@_box_coffin }
+          }
+      }
+      {
+        \coffin_scale:Nnn \l_@@_box_coffin
+                          { \l_@@_x_scale_tl }
+                          { \l_@@_y_scale_tl }
+      }
+  }
+
+\@@_new_resize_method:nn { base }
+  {
+    \@@_force_size_dispatch:nnnn
+      {
+        \coffin_resize:Nnn \l_@@_box_coffin
+                           \l_@@_box_width_dim
+                           \l_@@_box_height_dim
+      }
+      {
+        \coffin_resize:Nnn \l_@@_box_coffin
+           {
+             \l_@@_char_width_dim * \dim_ratio:nn { \l_@@_box_height_dim }
+               { \@@_coffin_ht_plus_dp:N \l_@@_box_coffin }
+           }
+           {
+             \l_@@_box_height_dim
+           }
+      }
+      {
+        \coffin_resize:Nnn \l_@@_box_coffin
+           {
+             \l_@@_box_width_dim
+           }
+           {
+             \l_@@_char_height_dim * \dim_ratio:nn { \l_@@_box_width_dim }
+               { \coffin_wd:N \l_@@_box_coffin }
+           }
+      }
+      {
+        \coffin_resize:Nnn \l_@@_box_coffin
+           {
+             \l_@@_x_scale_tl \l_@@_char_width_dim
+           }
+           {
+             \l_@@_y_scale_tl \l_@@_char_height_dim
+           }
+      }
+  }
+
+\msg_new:nnn { hanzibox } { frame-type } { using~ `#1'~ frame. }
+%    \end{macrocode}
+%
+% \changes{v2.0.0}{2021/09/28}{删除square缩放样式}
+%
+% \subsubsection{设置字号}
+%
+% \begin{macro}{\@@_zihao:n}
+% 设置字号
+%    \begin{macrocode}
+\cs_new_nopar:Npn \@@_zihao:n #1 { \zihao {#1} }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection{定义边框类型错误提示信息}
+%
+%    \begin{macrocode}
+\msg_new:nnn { hanzibox } { frame-exists } { The~ frame~ type~ `#1~ not~ exists. }
+%    \end{macrocode}
+%
+% \subsubsection{命名颜色}
+%
+% \begin{macro}{\@@_color_select:nn,\@@_color_select:nnn}
+% 颜色命名函数，注意使用的是l3语法
+%    \begin{macrocode}
+\cs_set_nopar:Npn \@@_color_select:nn #1#2
+  {
+    \color_set:nn {#1} {#2}
+  }
+\cs_set_nopar:Npn \@@_color_select:nnn #1#2#3
+  {
+    \color_set:nnn {#1} {#2} {#3}
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection{设置Debug状态}
+%
+% \begin{macro}{\@@_debug:n}
+% 设置debug状态
+%    \begin{macrocode}
+\cs_new:Npn \@@_debug:n
+  {
+    \bool_if:NTF \l_@@_debug_bool
+      { \use:n } { \use_none:n }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{选项处理}
+%
+% \changes{v2.0.0}{2021/09/25}{参考zitie宏包，重新设计选项，
+%                              仅保留1.1.0版本中的拼音、汉字、译文显示控制选项。}
+%
+% 定义 |hanzibox| 键值类。
+%    \begin{macrocode}
+\keys_define:nn { hanzibox }
+  {
+%    \end{macrocode}
+%
+% \begin{macro}{basechar}
+% 设置基字符。
+%    \begin{macrocode}
+    basechar  .code:n = { \tl_gset:Nx \c_@@_basechar_tl {#1}
+                          \@@_calc_basechar_w_h:
+                        },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{zihao}
+% 设置字号。
+%    \begin{macrocode}
+    zihao     .code:n = { \hbox_gset:Nn \l_@@_basebox_box
+                            {
+                              \@@_zihao:n {#1} \c_@@_basechar_tl
+                            }
+                          \@@_calc_basechar_w_h:
+                        },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{pinyinf}
+% 拼音的格式
+%    \begin{macrocode}
+    pinyinf .tl_set:N = \l_@@_pinyin_format_tl ,
+    pinyinf .initial:n = \tiny ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{charf}
+% 汉字的格式
+%    \begin{macrocode}
+    charf .code:n = { \tl_gset:Nn \l_@@_character_format_tl {#1}
+                      \@@_calc_frame_size:
+                    },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{tranf}
+% 译文的格式
+%    \begin{macrocode}
+    tranf .tl_set:N = \l_@@_translation_format_tl ,
+    tranf .initial:n = \tiny ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{frametype}
+% 设置边框类型，其取值可以是：none-无方框，口–仅方框， 十–仅中间的横线和竖线，
+% 田–常见的田字格， 米–十字格再加上斜的两条线， 咪–常见的米字格。
+%    \begin{macrocode}
+    frametype .code:n = { \exp_args:NNx \clist_if_in:NnTF \g_@@_frame_list_clist {#1}
+                            { \tl_set:Nx \l_@@_frame_type_tl {#1} }
+                            { \msg_error:nnx { hanzibox } { frame-exists } {#1} }
+                        },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{resize}
+% resize 设置缩放方式，其取值可以是：
+% none，不使用缩放
+% real，使用字符实际宽高缩放，
+% base，使用 basechar 设置的字符的宽高缩放。
+%    \begin{macrocode}
+    resize    .code:n = { \exp_args:NNx \clist_if_in:NnTF \g_@@_resize_method_clist {#1}
+                            { \tl_set:Nx \l_@@_resize_method_tl {#1} }
+                            { \msg_error:nnx { hanzibox } { resize-method } {#1} }
+                        },
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{xscale}
+% x方向缩放比例
+%    \begin{macrocode}
+    xscale .tl_set:N = \l_@@_x_scale_tl ,
+    xscale .initial:n = 1 ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{yscale}
+% y方向缩放比例
+%    \begin{macrocode}
+    yscale .tl_set:N = \l_@@_y_scale_tl ,
+    yscale .initial:n = 1 ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{scale}
+% x,y方向缩放比例
+%    \begin{macrocode}
+    scale  .meta:n = { xscale = #1 , yscale = #1 } ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{width}
+% 盒子宽度
+%    \begin{macrocode}
+    width  .dim_set:N = \l_@@_box_width_dim ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{height}
+% 盒子高度
+%    \begin{macrocode}
+    height .dim_set:N = \l_@@_box_height_dim ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{linewidth}
+% 线条宽度
+%    \begin{macrocode}
+    linewidth .dim_set:N = \l_@@_linewidth_dim ,
+    linewidth .initial:n = 0.4pt ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{framecolor}
+% 边框颜色
+%    \begin{macrocode}
+    framecolor  .code:n = { \@@_color_select:nn { hanziboxframecolor } {#1} } ,
+    framecolor  .initial:n = black ,
+    framecolor* .code:n = { \@@_color_select:nnn { hanziboxframecolor } #1 } ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{charcolor}
+% 字符颜色
+%    \begin{macrocode}
+    charcolor  .code:n = { \@@_color_select:nn { hanziboxcharcolor } {#1} } ,
+    charcolor  .initial:n = black ,
+    charcolor* .code:n = { \@@_color_select:nnn { hanziboxframecolor } {#1} } ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{color}
+% 同时设置边框和字符颜色
+%    \begin{macrocode}
+    color  .meta:n = { framecolor = #1, charcolor = #1 } ,
+    color* .meta:n = { framecolor* = #1, charcolor* = #1 } ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{fillcolor}
+% 填充色
+%    \begin{macrocode}
+    fillcolor  .code:n = { \exp_args:Nx \tl_if_empty:nTF {#1}
+                            {  \@@_color_select:nn { hanziboxfillcolor } { white }
+                               \cs_set_nopar:Npn \@@_aux_color_fill: { }
+                            }{ \@@_color_select:nn { hanziboxfillcolor } {#1}
+                               \cs_set_nopar:Npn \@@_aux_color_fill: { \color_fill:n {#1} }
+                            }
+                        } ,
+    fillcolor* .code:n = { \@@_color_select:nnn { hanziboxfillcolor } #1
+                           \cs_set_nopar:Npn \@@_aux_color_fill: { \color_fill:nn #1 }
+                         } ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{dashpattern}
+% 虚线样式
+%    \begin{macrocode}
+    dashpattern .tl_set:N = \l_@@_dash_pattern_tl ,
+    dashpattern .initial:n = { } ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{framearc}
+% 转角半径
+%    \begin{macrocode}
+    framearc  .code:n = { \tl_set:Nn \l_@@_frame_arc_tl { {#1}{#1} } } ,
+    framearc* .tl_set:N = \l_@@_frame_arc_tl ,
+    framearc* .initial:n = { { 0cm }{ 0cm } } ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{debug}
+% Debug状态
+%    \begin{macrocode}
+    debug .bool_set:N = \l_@@_debug_bool ,
+    debug .initial:n = false ,
+    debug .default:n = true ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{autopinyin}
+% 是否使用\tn{xpyinyin*}命令通过汉字自动获取汉语拼音，默认为true。
+%    \begin{macrocode}
+    autopinyin .bool_set:N = \l_@@_autopinyin_bool,
+    autopinyin .default:n = true,
+    autopinyin .initial:n = true,
+
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{initial}
+% 是否输出声母，默认为true。
+%    \begin{macrocode}
+    initial .bool_set:N = \l_@@_withinitial_bool,
+    initial .default:n = true,
+    initial .initial:n = true,
+
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{vowel}
+% 是否输出韵母，默认为true。
+%    \begin{macrocode}
+    vowel .bool_set:N = \l_@@_withvowel_bool,
+    vowel .default:n = true,
+    vowel .initial:n = true,
+
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{tone}
+% 是否输出声调，默认为true。
+%    \begin{macrocode}
+    tone .bool_set:N = \l_@@_withtone_bool,
+    tone .default:n = true,
+    tone .initial:n = true,
+
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v1.1.0}{2021/09/21}{添加隐藏拼音键。}
+%
+% \begin{macro}{pinyin}
+% 是否显示汉语拼音，默认为true。
+%    \begin{macrocode}
+    pinyin .bool_set:N = \l_@@_withpinyin_bool,
+    pinyin .default:n = true,
+    pinyin .initial:n = true,
+
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v1.1.0}{2021/09/21}{添加隐藏汉字键。}
+%
+% \begin{macro}{hanzi}
+% 是否显示汉语拼音，默认为true。
+%    \begin{macrocode}
+    hanzi .bool_set:N = \l_@@_withhanzi_bool,
+    hanzi .default:n = true,
+    hanzi .initial:n = true,
+
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v1.1.0}{2021/09/21}{添加隐藏译文键。}
+%
+% \begin{macro}{tran}
+% 是否显示汉语拼音，默认为true。
+%    \begin{macrocode}
+    tran .bool_set:N = \l_@@_withtran_bool,
+    tran .default:n = true,
+    tran .initial:n = true,
+
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% 处理未知选项。
+%    \begin{macrocode}
+    unknown .code:n = { \@@_error:n { unknown-option } }
+  }
+\msg_new:nnn { hanzibox } { unknown-option }
+  { package~ option~ "\l_keys_key_tl"~ is~ unknown. }
+
+%    \end{macrocode}
+%
+% 参数默认值
+%    \begin{macrocode}
+\keys_set:nn { hanzibox }
+  {
+    basechar = 好 ,
+    zihao = 4 ,
+    pinyinf = \tiny ,
+    charf = \normalsize ,
+    tranf = \tiny ,
+    frametype = none ,
+    resize = none ,
+  }
+
+%    \end{macrocode}
+%
+% \subsection{选项用户接口}
+%
+% \begin{macro}{\hanziboxset}
+% 选项设置用户接口。
+%    \begin{macrocode}
+\NewDocumentCommand \hanziboxset { m }
+  { \keys_set:nn { hanzibox } {#1} }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{内部函数}
+%
+% \begin{macro}{\@@_pinyinaux:n}
+% \begin{macro}{\@@_pinyinaux:x}
+% \pkg{xpyinyin}宏包\tn{pinyin} 命令的\LaTeX3{}版本函数及其函数变体。
+%    \begin{macrocode}
+  % \xpinyinsetup{pysep={\hspace*{1em}}}
+\cs_set_eq:NN \@@_pinyinaux:n \pinyin
+\cs_generate_variant:Nn \@@_pinyinaux:n { x }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\@@_dialog:nnnn}
+% 手动汉字盒子排版内部命令。
+%    \begin{macrocode}
+\cs_new:Npn \@@_dialog:nnnn #1#2#3#4
+  {
+    \group_begin:
+      \keys_set:nn { hanzibox } { #1 }
+
+      \tl_set:Nx \l_@@_character_tl {#2}
+      \tl_set:Nx \l_@@_pinyin_tl {#3}
+      \tl_set:Nx \l_@@_translation_tl {#4}
+
+      \hcoffin_set:Nn \l_@@_pinyin_box_coffin
+        {
+          \tl_use:N \l_@@_pinyin_format_tl
+          \tl_use:N \l_@@_pinyin_tl
+        }
+      \hcoffin_set:Nn \l_@@_str_box_coffin
+        {
+          \tl_map_inline:Nn \l_@@_character_tl
+            {
+              \@@_single_handle:N ##1 \allowbreak
+            }
+        }
+      \hcoffin_set:Nn \l_@@_tran_box_coffin
+        {
+          \tl_use:N \l_@@_translation_format_tl
+          \tl_use:N \l_@@_translation_tl
+        }
+      \coffin_join:NnnNnnnn \l_@@_str_box_coffin
+        { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+      \coffin_join:NnnNnnnn \l_@@_str_box_coffin
+        { hc } { b } \l_@@_tran_box_coffin { hc } { t } { 0pt } { -2pt }
+
+      \coffin_set_eq:NN \l_@@_box_coffin \l_@@_str_box_coffin
+
+      \@@_resize_c:n { \l_@@_resize_method_tl }
+
+      \coffin_typeset:Nnnnn \l_@@_box_coffin
+        { l } { b } { 0pt } { 0pt }
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.0.1}{2021/09/28}{分离多字、单字、0个字的盒子构造代码}
+% \changes{v2.1.0}{2021/09/30}{更新拼音获取方式，以处理\tn{setuppinyin}的结果}
+%
+% \begin{macro}{\@@_multi_str_coffin_construct:}
+% 构造多汉字带拼音字符串盒子。
+%    \begin{macrocode}
+\cs_new:Npn \@@_multi_str_coffin_construct:
+  {
+    \bool_if:NTF \l_@@_autopinyin_bool
+      {
+        \hcoffin_set:Nn \l_@@_str_box_coffin
+          {
+            \tl_map_inline:Nn \l_@@_character_tl
+              {
+                \hcoffin_set:Nn \l_tmpa_coffin
+                  {
+                    \@@_single_handle:N ##1
+                  }
+
+                \bool_if:NT \l_@@_withpinyin_bool
+                  {
+                    \@@_get_hanzi_pinyin:n { ##1 }
+                    \@@_single_pinyin:V \l_@@_hanzi_pinyin_tl
+
+                    \coffin_join:NnnNnnnn \l_tmpa_coffin
+                      { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                  }
+                \coffin_typeset:Nnnnn \l_tmpa_coffin
+                  { l } { b } { 0pt } { 0pt }
+                \allowbreak
+              }
+          }
+      }
+      {
+        \@@_get_tone_pinyin:V \l_@@_pinyin_tl
+        \clist_clear:N \l_@@_tone_pinyin_clist
+        \clist_set:NV \l_@@_tone_pinyin_clist \l_@@_tone_pinyin_tl
+        \int_set:Nn \l_tmpa_int {\clist_count:N \l_@@_tone_pinyin_clist}
+        \hcoffin_set:Nn \l_@@_str_box_coffin
+          {
+            \int_compare:nNnTF { \l_@@_character_int } = { \l_tmpa_int }
+              {
+                \tl_map_inline:Nn \l_@@_character_tl
+                  {
+                    \hcoffin_set:Nn \l_tmpa_coffin
+                      {
+                        \@@_single_handle:N ##1
+                      }
+
+                    \bool_if:NT \l_@@_withpinyin_bool
+                      {
+                        \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
+                        \@@_single_pinyin:V \l_tmpb_tl
+
+                        \coffin_join:NnnNnnnn \l_tmpa_coffin
+                          { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                      }
+                    \coffin_typeset:Nnnnn \l_tmpa_coffin
+                      { l } { b } { 0pt } { 0pt }
+                    \allowbreak
+                  }
+              }
+              {
+                \int_compare:nNnTF { \l_@@_character_int } > { \l_tmpa_int }
+                  {
+                    \int_step_inline:nn { \l_tmpa_int }
+                      {
+                        \hcoffin_set:Nn \l_tmpa_coffin
+                          {
+                            \tl_set:Nx \l_tmpa_tl {\tl_item:Nn \l_@@_character_tl { ##1 }}
+                            \@@_single_handle:N \l_tmpa_tl
+                          }
+                        \bool_if:NT \l_@@_withpinyin_bool
+                          {
+                            \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
+                            \@@_single_pinyin:V \l_tmpb_tl
+
+                            \coffin_join:NnnNnnnn \l_tmpa_coffin
+                              { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                          }
+                        \coffin_typeset:Nnnnn \l_tmpa_coffin
+                          { l } { b } { 0pt } { 0pt }
+                        \allowbreak
+                      }
+                    \int_step_inline:nnn { \l_tmpa_int + 1 } { \l_@@_character_int }
+                      {
+                        \hcoffin_set:Nn \l_tmpa_coffin
+                          {
+                            \tl_set:Nx \l_tmpa_tl {\tl_item:Nn \l_@@_character_tl { ##1 }}
+                            \@@_single_handle:N \l_tmpa_tl
+                          }
+                        \coffin_typeset:Nnnnn \l_tmpa_coffin
+                          { l } { b } { 0pt } { 0pt }
+                        \allowbreak
+                      }
+                  }
+                  {
+                    \int_step_inline:nn { \l_@@_character_int }
+                      {
+                        \hcoffin_set:Nn \l_tmpa_coffin
+                          {
+                            \tl_set:Nx \l_tmpa_tl {\tl_item:Nn \l_@@_character_tl { ##1 }}
+                            \@@_single_handle:N \l_tmpa_tl
+                          }
+                        \bool_if:NT \l_@@_withpinyin_bool
+                          {
+                            \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
+                            \@@_single_pinyin:V \l_tmpb_tl
+
+                            \coffin_join:NnnNnnnn \l_tmpa_coffin
+                              { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                          }
+                        \coffin_typeset:Nnnnn \l_tmpa_coffin
+                          { l } { b } { 0pt } { 0pt }
+                        \allowbreak
+                      }
+
+                    \bool_if:NTF \l_@@_withhanzi_bool
+                      {
+                        \bool_set_false:N \l_@@_withhanzi_bool
+                        \int_step_inline:nnn { \l_@@_character_int + 1 } { \l_tmpa_int }
+                          {
+                            \hcoffin_set:Nn \l_tmpa_coffin
+                              {
+                                \@@_single_handle:N \c_@@_basechar_tl
+                              }
+                            \bool_if:NT \l_@@_withpinyin_bool
+                              {
+                                \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
+                                \@@_single_pinyin:V \l_tmpb_tl
+
+                                \coffin_join:NnnNnnnn \l_tmpa_coffin
+                                  { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                              }
+                            \coffin_typeset:Nnnnn \l_tmpa_coffin
+                              { l } { b } { 0pt } { 0pt }
+                            \allowbreak
+                          }
+                        \bool_set_true:N \l_@@_withhanzi_bool
+                      }
+                      {
+                        \int_step_inline:nnn { \l_@@_character_int + 1 } { \l_tmpa_int }
+                          {
+                            \hcoffin_set:Nn \l_tmpa_coffin
+                              {
+                                \@@_single_handle:N \c_@@_basechar_tl
+                              }
+                            \bool_if:NT \l_@@_withpinyin_bool
+                              {
+                                \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
+                                \@@_single_pinyin:V \l_tmpb_tl
+
+                                \coffin_join:NnnNnnnn \l_tmpa_coffin
+                                  { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                              }
+                            \coffin_typeset:Nnnnn \l_tmpa_coffin
+                              { l } { b } { 0pt } { 0pt }
+                            \allowbreak
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_single_str_coffin_construct:}
+% 构造单个汉字带拼音字符串盒子。
+%    \begin{macrocode}
+\cs_new:Npn \@@_single_str_coffin_construct:
+  {
+    \bool_if:NTF \l_@@_autopinyin_bool
+      {
+        \@@_multi_str_coffin_construct:
+      }
+      {
+        \hcoffin_set:Nn \l_@@_str_box_coffin
+          {
+            \hcoffin_set:Nn \l_tmpa_coffin
+              {
+                \@@_single_handle:N \l_@@_character_tl
+              }
+
+            \bool_if:NT \l_@@_withpinyin_bool
+              {
+                \hcoffin_set:Nn \l_@@_pinyin_box_coffin
+                  {
+                    \color_select:n { hanziboxcharcolor }
+                    \tl_use:N \l_@@_pinyin_format_tl
+                    \@@_get_tone_pinyin:V \l_@@_pinyin_tl
+                    \clist_clear:N \l_@@_tone_pinyin_clist
+                    \clist_set:NV \l_@@_tone_pinyin_clist \l_@@_tone_pinyin_tl
+                    \clist_use:Nn \l_@@_tone_pinyin_clist {}
+                  }
+                \coffin_join:NnnNnnnn \l_tmpa_coffin
+                  { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+              }
+            \coffin_typeset:Nnnnn \l_tmpa_coffin
+              { l } { b } { 0pt } { 0pt }
+            \allowbreak
+          }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.1.1}{2021/10/02}{修复无汉字手支拼音无法正确处理的问题}
+%
+% \begin{macro}{\@@_null_str_coffin_construct:}
+% 构造空白汉字(0个汉字)带拼音字符串盒子。
+%    \begin{macrocode}
+\cs_new:Npn \@@_null_str_coffin_construct:
+  {
+    \bool_if:NTF \l_@@_autopinyin_bool
+      {
+        \hcoffin_set:Nn \l_@@_str_box_coffin
+          {
+            \bool_set_false:N \l_@@_withhanzi_bool
+            \@@_single_handle:N \c_@@_basechar_tl
+            \allowbreak
+          }
+      }
+      {
+        \hcoffin_set:Nn \l_@@_str_box_coffin
+          {
+            \bool_if:NTF \l_@@_withpinyin_bool
+              {
+                \@@_get_tone_pinyin:V \l_@@_pinyin_tl
+                \clist_clear:N \l_@@_tone_pinyin_clist
+                \clist_set:NV \l_@@_tone_pinyin_clist \l_@@_tone_pinyin_tl
+                \int_set:Nn \l_tmpa_int {\clist_count:N \l_@@_tone_pinyin_clist}
+
+                \int_step_inline:nn { \l_tmpa_int }
+                  {
+                    \bool_set_false:N \l_@@_withhanzi_bool
+
+                    \hcoffin_set:Nn \l_tmpa_coffin
+                      {
+                        \@@_single_handle:N \c_@@_basechar_tl
+                      }
+
+                    \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
+                    \@@_single_pinyin:V \l_tmpb_tl
+
+                    \coffin_join:NnnNnnnn \l_tmpa_coffin
+                      { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                    \coffin_typeset:Nnnnn \l_tmpa_coffin
+                      { l } { b } { 0pt } { 0pt }
+                    \allowbreak
+                  }
+              }
+              {
+                \bool_set_false:N \l_@@_withhanzi_bool
+                \@@_single_handle:N \c_@@_basechar_tl
+                \allowbreak
+              }
+          }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.0.0}{2021/09/28}{将拼音处理调整为在handle函数中直接实现}
+% \changes{v2.0.0}{2021/09/28}{区分了单个汉字和空白汉字的处理}
+% \changes{v2.0.1}{2021/09/29}{将汉字盒子处理过程拆解为函数实现}
+%
+% \begin{macro}{\@@_handle:nnnn}
+% 构造汉字盒子入口
+%    \begin{macrocode}
+\cs_new:Npn \@@_handle:nnnn #1#2#3#4
+  {
+    \group_begin:
+      \keys_set:nn { hanzibox } { #1 }
+
+      \tl_gset:Nx \l_@@_character_tl {#2}
+      \tl_gset:Nx \l_@@_pinyin_tl {#3}
+      \tl_gset:Nx \l_@@_translation_tl {#4}
+
+      \int_set:Nn \l_@@_character_int
+        {
+          \tl_count:V \l_@@_character_tl
+        }
+      \int_set:Nn \l_@@_translation_int
+        {
+          \tl_count:V \l_@@_translation_tl
+        }
+      \int_set:Nn \l_@@_pinyin_int
+        {
+          \tl_count:V \l_@@_pinyin_tl
+        }
+
+      \int_compare:nNnTF { \l_@@_character_int } > { 1 }
+        {
+          \@@_multi_str_coffin_construct:
+        }
+        {
+          \int_compare:nNnTF { \l_@@_character_int } = { 1 }
+            {
+              \@@_single_str_coffin_construct:
+            }
+            {
+              \@@_null_str_coffin_construct:
+            }
+        }
+      \bool_if:NT \l_@@_withtran_bool
+        {
+          \hcoffin_set:Nn \l_@@_tran_box_coffin
+            {
+              \color_select:n { hanziboxcharcolor }
+              \tl_use:N \l_@@_translation_format_tl
+              \tl_use:N \l_@@_translation_tl
+            }
+        }
+      \coffin_join:NnnNnnnn \l_@@_str_box_coffin
+        { hc } { b } \l_@@_tran_box_coffin { hc } { t } { 0pt } { -3pt }
+
+      \coffin_set_eq:NN \l_@@_box_coffin \l_@@_str_box_coffin
+
+      \@@_resize_c:n { \l_@@_resize_method_tl }
+
+      \coffin_typeset:Nnnnn \l_@@_box_coffin
+        { l } { b } { 0pt } { 0pt }
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.0.0}{2021/09/27}{对于无需分解声韵母的情况，
+%     直接使用xpinyin宏包的结果排版拼音。}
+%
+% \begin{macro}{\@@_single_pinyin:n}
+% 构造单个汉字的拼音盒子
+%    \begin{macrocode}
+\cs_new:Npn \@@_single_pinyin:n #1
+  {
+    \bool_if:NTF \l_@@_withtone_bool
+      {
+        \bool_if:nTF { !(\l_@@_withinitial_bool) || !(\l_@@_withvowel_bool) }
+          {
+            \@@_split_pinyin_withtone:n { #1 }
+            \hcoffin_set:Nn \l_@@_pinyin_box_coffin
+              {
+                \color_select:n { hanziboxcharcolor }
+                \tl_use:N \l_@@_pinyin_format_tl
+
+                \bool_if:NTF \l_@@_withinitial_bool
+                  {
+                    \bool_if:NTF \l_@@_withvowel_bool
+                    {
+                      \tl_use:N \l_@@_initial_tl
+                      \tl_use:N \l_@@_vowel_tl
+                    }
+                    {
+                      \tl_use:N \l_@@_initial_tl
+                      \phantom{ \tl_use:N \l_@@_vowel_tl }
+                    }
+                  }
+                  {
+                    \bool_if:NTF \l_@@_withvowel_bool
+                    {
+                      \phantom{ \tl_use:N \l_@@_initial_tl }
+                      \tl_use:N \l_@@_vowel_tl
+                    }
+                    {
+                      \phantom{ \tl_use:N \l_@@_initial_tl }
+                      \phantom{ \tl_use:N \l_@@_vowel_tl }
+                    }
+                  }
+              }
+          }
+          {
+            \hcoffin_set:Nn \l_@@_pinyin_box_coffin
+              {
+                \color_select:n { hanziboxcharcolor }
+                \tl_use:N \l_@@_pinyin_format_tl
+                #1
+              }
+          }
+      }
+      {
+        \@@_split_pinyin_withouttone:n { #1 }
+        \hcoffin_set:Nn \l_@@_pinyin_box_coffin
+        {
+          \color_select:n { hanziboxcharcolor }
+          \tl_use:N \l_@@_pinyin_format_tl
+
+          \tl_use:N \l_@@_pinyin_tl
+        }
+      }
+  }
+\cs_generate_variant:Nn  \@@_single_pinyin:n { V }
+\cs_generate_variant:Nn  \@@_single_pinyin:n { x }
+\cs_set:Npn \@@_single_pinyin_o:n
+  { \exp_after:wN \@@_single_pinyin:n }
+\cs_set:Npn \@@_single_pinyin_f:n
+  { \exp_args:Nf \@@_single_pinyin:n }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_single_handle:nN,\@@_single_handle:N}
+% 构造单个汉字盒子入口
+%    \begin{macrocode}
+\cs_new:Npn \@@_single_handle:nN #1#2
+  {
+    \group_begin:
+      \tl_if_empty:nF {#1} { \keys_set:nn { hanzibox } {#1} }
+
+      \tl_set:Nf \l_@@_curr_char_tl {#2}
+
+      \@@_single_construct_o:N \l_@@_curr_char_tl
+    \group_end:
+  }
+\cs_new:Npn \@@_single_handle:N #1
+  {
+    \group_begin:
+      \tl_set:Nf \l_@@_curr_char_tl {#1}
+      \@@_single_construct_o:N \l_@@_curr_char_tl
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.0.0}{2021/09/27}{删除单个汉字构造中添加拼音的功能}
+%
+% \begin{macro}{\@@_single_construct:N}
+% 构造单个汉字盒子
+%    \begin{macrocode}
+\cs_new:Npn \@@_single_construct:N #1
+  {
+    \bool_if:NTF \l_@@_withhanzi_bool
+      {
+        \hcoffin_set:Nn \l_@@_box_coffin
+          {
+            \color_select:n { hanziboxcharcolor }
+            \tl_use:N \l_@@_character_format_tl
+            #1
+          }
+      }
+      {
+        \hcoffin_set:Nn \l_@@_box_coffin
+          {
+            \color_select:n { hanziboxcharcolor }
+            \tl_use:N \l_@@_character_format_tl
+            \phantom{#1}
+          }
+      }
+
+    \@@_single_frame_construct:
+  }
+\cs_set:Npn \@@_single_construct_o:N
+  { \exp_after:wN \@@_single_construct:N }
+\cs_set:Npn \@@_single_construct_f:N
+  { \exp_args:Nf \@@_single_construct:N }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.0.0}{2021/09/28}{将汉字盒子与边框按中心对齐，以使汉字居中}
+%
+% \begin{macro}{\@@_single_frame_construct:}
+% 构造单个汉字盒子边框
+%    \begin{macrocode}
+\cs_new:Npn \@@_single_frame_construct:
+  {
+    \draw_begin:
+      \draw_linewidth:n { \l_@@_linewidth_dim }
+      \@@_aux_color_fill:
+      \color_stroke:n { hanziboxframecolor }
+
+      \exp_after:wN \draw_path_corner_arc:nn \l_@@_frame_arc_tl
+
+      \draw_path_scope_begin:
+        \@@_frame_type_c:n { \l_@@_frame_type_tl }
+          { 0 } { 0 } { \hanziboxwidth } { \hanziboxheight } { 1.0 } { 1.0 }
+        \draw_transform_shift:n {\hanziboxwidth / 2.0, \hanziboxheight / 2.0 }
+        \draw_coffin_use:Nnn \l_@@_box_coffin { hc } { vc }
+      \draw_path_scope_end:
+    \draw_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{\pkg{xpinyin}宏包拼音后处理函数}
+%
+% \changes{v2.1.0}{2021/09/30}{添加从xpinyin宏包中提取拼音串函数。}
+% 摘录自LaTeX工作室问答：如何得到xpinyin拼音宏包得到的拼音文本？
+% (\url{https://ask.latexstudio.net/ask/question/3768.html})
+%
+% 变量定义
+%    \begin{macrocode}
+\tl_new:N \l_@@_save_tl
+\tl_new:N \l_@@_hanzi_pinyin_tl
+\tl_new:N \l_@@_tone_pinyin_tl
+%    \end{macrocode}
+%
+% 构造声调表
+%    \begin{macrocode}
+\clist_const:Nn \c_@@_tone_a_clist { ā,á,ǎ,à,a }
+\clist_const:Nn \c_@@_tone_o_clist { ō,ó,ǒ,ò,o }
+\clist_const:Nn \c_@@_tone_e_clist { ē,é,ě,è,e }
+\clist_const:Nn \c_@@_tone_u_clist { ū,ú,ǔ,ù,u }
+\clist_const:Nn \c_@@_tone_i_clist { ī,í,ǐ,ì,i }
+\clist_const:Nn \c_@@_tone_v_clist { ǖ,ǘ,ǚ,ǜ,ü }
+%    \end{macrocode}
+%
+% \begin{macro}{\@@_pinyin_aux:n}
+% 拼音生成辅助函数(改自xpinyin宏包的\verb!\__xpinyin_pinyin_aux:n #1!函数)
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_pinyin_aux:n #1
+  {
+    \quark_if_recursion_tail_stop_do:nn {#1}
+      {
+        \bool_if:NT \l__xpinyin_first_bool
+          { \tl_set:NV \l_@@_tone_pinyin_tl \l__xpinyin_item_tl }
+      }
+    \__xpinyin_if_number:nTF {#1}
+      {
+        \bool_if:NT \l__xpinyin_first_bool
+          { \bool_set_false:N \l__xpinyin_first_bool }
+        \tl_put_right:NV \l_@@_tone_pinyin_tl \l__xpinyin_pre_tl
+        \tl_put_right:Nx \l_@@_tone_pinyin_tl
+          { \clist_item:cn { c_@@_tone_ \l__xpinyin_tone_tl _clist } {#1} }
+        \tl_put_right:NV \l_@@_tone_pinyin_tl \l__xpinyin_post_tl
+        \bool_if:NF \l_@@_autopinyin_bool
+          {
+            \tl_put_right:Nn \l_@@_tone_pinyin_tl {,}
+          }
+        \__xpinyin_pinyin_init:
+      }
+      {
+        \int_compare:nNnTF
+          { 0 \cs_if_exist_use:c { c__xpinyin_ \tl_to_str:N \l__xpinyin_tone_tl _tl } } >
+          { 0 \cs_if_exist_use:c { c__xpinyin_ \tl_to_str:n {#1} _tl } }
+          { \tl_put_right:Nn \l__xpinyin_post_tl {#1} }
+          {
+            \tl_set:Nn \l__xpinyin_tone_tl {#1}
+            \tl_set_eq:NN \l__xpinyin_pre_tl \l__xpinyin_item_tl
+            \tl_clear:N \l__xpinyin_post_tl
+          }
+        \tl_put_right:Nx \l__xpinyin_item_tl { \__xpinyin_replace_v:n {#1} }
+      }
+    \@@_pinyin_aux:n
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_get_tone_pinyin:n}
+% 根据手动拼音得到拼音
+%    \begin{macrocode}
+\cs_new:Npn \@@_get_tone_pinyin:n #1
+  {
+    \tl_clear:N \l_@@_tone_pinyin_tl
+    \__xpinyin_pinyin_init:
+    \tl_set:Nn \l_@@_save_tl {#1}
+    \bool_set_true:N \l__xpinyin_first_bool
+    \@@_pinyin_aux:n #1 \q_recursion_tail \q_recursion_stop
+  }
+\cs_generate_variant:Nn  \@@_get_tone_pinyin:n { V }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_get_hanzi_pinyin:n}
+% 自动拼音
+%    \begin{macrocode}
+\cs_new:Npn \@@_get_hanzi_pinyin:n #1
+  {
+    \tl_set_eq:Nc \l_tmpa_tl { c__xpinyin_ \__xpinyin_char_to_unicode:n {#1} _tl }
+    \exp_args:No \tl_if_head_eq_meaning:nNTF { \l_tmpa_tl } \__xpinyin_pinyin:n
+      {
+        \exp_args:Nf \@@_get_tone_pinyin:n { \exp_after:wN \use_ii:nn \l_tmpa_tl }
+        \tl_set_eq:NN \l_@@_hanzi_pinyin_tl \l_@@_tone_pinyin_tl
+      }
+      { \tl_set_eq:NN \l_@@_hanzi_pinyin_tl \l_tmpa_tl }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.0.0}{2021/09/24}{添加从xpinyin宏包中提取拼音函数。}
+% 代码摘录自LaTeX工作室：基于xpinyin宏包获取汉字的声母，韵母，声调
+% (\url{https://www.latexstudio.net/index/details/index/mid/1994.html})
+%
+% 从需要的声母、韵母、读音表。
+%
+% 声母表
+%    \begin{macrocode}
+\clist_set:Nn \l_@@_initials_clist
+  {
+    {zh} , {ch} , {sh} , {b} , {p} , {m} , {f} ,
+    {d}  , {t}  , {l}  , {k} , {h} , {j} , {q} ,
+    {x}  , {r}  , {z}  , {c} , {s} , {y} , {w} ,
+    {g}  , {n}
+  }
+%    \end{macrocode}
+%
+% \changes{v2.0.0}{2021/09/27}{修订部分错误带音调韵母表}
+%
+% 带声音调韵母表
+%    \begin{macrocode}
+\clist_set:Nn \l_@@_vowel_tone_clist
+  {
+    {iāng} , {iáng} , {iǎng} , {iàng} , {iang} ,
+    {iōng} , {ióng} , {iǒng} , {iòng} , {iong} ,
+    {uāng} , {uáng} , {uǎng} , {uàng} , {uang} ,
+    {uēng} , {uéng} , {uěng} , {uèng} , {ueng} ,
+    {āng}  , {áng}  , {ǎng}  , {àng}  , {ang}  ,
+    {ēng}  , {éng}  , {ěng}  , {èng}  , {eng}  ,
+    {īng}  , {íng}  , {ǐng}  , {ìng}  , {ing}  ,
+    {ōng}  , {óng}  , {ǒng}  , {òng}  , {ong}  ,
+    {uāi}  , {uái}  , {uǎi}  , {uài}  , {uai}  ,
+    {uān}  , {uán}  , {uǎn}  , {uàn}  , {uan}  ,
+    {uēi}  , {uéi}  , {uěi}  , {uèi}  , {uei}  ,
+    {uāo}  , {uáo}  , {uǎo}  , {uào}  , {uao}  ,
+    {iōu}  , {ióu}  , {iǒu}  , {iòu}  , {iou}  ,
+    {iān}  , {ián}  , {iǎn}  , {iàn}  , {ian}  ,
+    {üān}  , {üán}  , {üǎn}  , {üàn}  , {üan}  ,
+    {uēn}  , {uén}  , {uěn}  , {uèn}  , {uen}  ,
+    {āi}   , {ái}   , {ǎi}   , {ài}   , {ai}   ,
+    {ēi}   , {éi}   , {ěi}   , {èi}   , {ei}   ,
+    {uā}   , {uá}   , {uǎ}   , {uà}   , {ua}   ,
+    {uō}   , {uó}   , {uǒ}   , {uò}   , {uo}   ,
+    {uī}   , {uí}   , {uǐ}   , {uì}   , {ui}   ,
+    {āo}   , {áo}   , {ǎo}   , {ào}   , {ao}   ,
+    {ōu}   , {óu}   , {ǒu}   , {òu}   , {ou}   ,
+    {iū}   , {iú}   , {iǔ}   , {iù}   , {iu}   ,
+    {iā}   , {iá}   , {iǎ}   , {ià}   , {ia}   ,
+    {iē}   , {ié}   , {iě}   , {iè}   , {ie}   ,
+    {uē}   , {ué}   , {uě}   , {uè}   , {ue}   ,
+    {üē}   , {üé}   , {üě}   , {üè}   , {üe}   ,
+    {ēr}   , {ér}   , {ěr}   , {èr}   , {er}   ,
+    {ān}   , {án}   , {ǎn}   , {àn}   , {an}   ,
+    {ēn}   , {én}   , {ěn}   , {èn}   , {en}   ,
+    {īn}   , {ín}   , {ǐn}   , {ìn}   , {in}   ,
+    {ūn}   , {ún}   , {ǔn}   , {ùn}   , {un}   ,
+    {ǖn}   , {ǘn}   , {ǚn}   , {ǜn}   , {ün}   ,
+    {ā}    , {á}    , {ǎ}    , {à}    , {a}    ,
+    {ē}    , {é}    , {ě}    , {è}    , {e}    ,
+    {ī}    , {í}    , {ǐ}    , {ì}    , {i}    ,
+    {ō}    , {ó}    , {ǒ}    , {ò}    , {o}    ,
+    {ū}    , {ú}    , {ǔ}    , {ù}    , {u}    ,
+    {ǖ}    , {ǘ}    , {ǚ}    , {ǜ}    , {ü}
+  }
+%    \end{macrocode}
+%
+% 韵母表
+%    \begin{macrocode}
+\clist_set:Nn \l_@@_vowel_clist
+  {
+    {iang} , {iong} , {uang} , {ueng} , {ang} , {eng} , {ing} ,
+    {ong}  , {uai}  , {uan}  , {uai}  , {uei} , {iao} , {iou} ,
+    {ian}  , {üan}  , {uen}  , {ai}   , {ei}  , {ua}  , {uo}  ,
+    {ui}   , {ao}   , {ou}   , {iu}   , {ie}  , {üe}  , {er}  ,
+    {an}   , {en}   , {in}   , {un}   , {ün}  , {a}   , {e}   ,
+    {i}    , {o}    , {ü}    , {u}
+  }
+%    \end{macrocode}
+%
+% 声调表
+%    \begin{macrocode}
+\clist_set:Nn \l_@@_tone_num_clist
+  {
+    {ā} {a1} , {á} {a2} , {ǎ} {a3} , {à} {a4} ,
+    {ō} {o1} , {ó} {o2} , {ǒ} {o3} , {ò} {o4} ,
+    {ē} {e1} , {é} {e2} , {ě} {e3} , {è} {e4} ,
+    {ū} {u1} , {ú} {u2} , {ǔ} {u3} , {ù} {u4} ,
+    {ḿ} {m2} ,
+    {ń} {n2} , {ň} {n3} , {ǹ} {n4} ,
+    {ī} {i1} , {í} {i2} , {ǐ} {i3} , {ì} {i4} ,
+    {ǖ} {v1} , {ǘ} {v2} , {ǚ} {v3} , {ǜ} {v4}
+  }
+%    \end{macrocode}
+%
+% 去声调表
+%    \begin{macrocode}
+\clist_set:Nn \l_@@_nonetone_clist
+  {
+    {ā} {a} , {á} {a} , {ǎ} {a} , {à} {a} ,
+    {ō} {o} , {ó} {o} , {ǒ} {o} , {ò} {o} ,
+    {ē} {e} , {é} {e} , {ě} {e} , {è} {e} ,
+    {ū} {u} , {ú} {u} , {ǔ} {u} , {ù} {u} ,
+    {ḿ} {m} ,
+    {ń} {n} , {ň} {n} , {ǹ} {n} ,
+    {ī} {i} , {í} {i} , {ǐ} {i} , {ì} {i} ,
+    {ǖ} {ü} , {ǘ} {ü} , {ǚ} {ü} , {ǜ} {ü}
+  }
+%    \end{macrocode}
+%
+% \begin{macro}{\@@_split_pinyin_withtone:n}
+% 分离拼音中的声母和带声调的韵母。
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_split_pinyin_withtone:n #1
+  {
+    \int_zero:N  \l_@@_tone_int
+    \str_clear:N \l_@@_pinyin_str
+    \tl_clear:N  \l_@@_pinyin_tl
+    \tl_clear:N  \l_@@_initial_tl
+    \tl_clear:N  \l_@@_vowel_tl
+
+    \tl_set:Nn \l_@@_pinyin_tl {#1}
+
+    \tl_map_inline:Nn \l_@@_pinyin_tl
+      {
+        \str_put_right:Nn \l_@@_pinyin_str {##1}
+      }
+
+    \clist_map_inline:Nn \l_@@_initials_clist
+      {
+        \str_if_in:NnT { \l_@@_pinyin_str } {##1}
+          {
+            \tl_set:Nn \l_@@_initial_tl {##1}
+            \clist_map_break:
+          }
+      }
+
+    \clist_map_inline:Nn \l_@@_vowel_tone_clist
+      {
+        \str_if_in:NnT { \l_@@_pinyin_str } { ##1 }
+          {
+            \tl_set:Nn \l_@@_vowel_tl {##1}
+            \clist_map_break:
+          }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_split_pinyin_withouttone:n}
+% 分离拼音中的声母和不带声调的韵母。
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_split_pinyin_withouttone:n #1
+  {
+    \int_zero:N  \l_@@_tone_int
+    \str_clear:N \l_@@_pinyin_str
+    \tl_clear:N  \l_@@_pinyin_tl
+    \tl_clear:N  \l_@@_initial_tl
+    \tl_clear:N  \l_@@_vowel_tl
+
+    \tl_set:Nn \l_@@_pinyin_tl {#1}
+
+    \clist_map_inline:Nn \l_@@_nonetone_clist
+      {
+        \tl_replace_all:Nnn \l_@@_pinyin_tl ##1
+      }
+
+    \tl_map_inline:Nn \l_@@_pinyin_tl
+      {
+        \str_put_right:Nn \l_@@_pinyin_str {##1}
+      }
+
+    \clist_map_inline:Nn \l_@@_initials_clist
+      {
+        \str_if_in:NnT {\l_@@_pinyin_str} {##1}
+          {
+            \tl_set:Nn \l_@@_initial_tl {##1}
+            \clist_map_break:
+          }
+      }
+
+    \clist_map_inline:Nn \l_@@_vowel_clist
+      {
+        \str_if_in:NnT { \l_@@_pinyin_str } { ##1 }
+          {
+            \tl_set:Nn \l_@@_vowel_tl {##1}
+            \clist_map_break:
+          }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+%    \begin{macrocode}
+%</package>
+%    \end{macrocode}
+%
+% \end{implementation}
+%
+% \Finale
+%
+\endinput
