@@ -278,11 +278,11 @@ TSWLatexianTemp*
 # standalone packages
 *.sta
 
-# refs
-#./ref/
-#ref/
-#./refs/
-#refs/
+refs
+./ref/
+ref/
+./refs/
+refs/
 
 # ctans
 to-ctan/
