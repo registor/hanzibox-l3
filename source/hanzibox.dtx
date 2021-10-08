@@ -26,8 +26,13 @@ You can read the manual (in Chinese) for more details and examples.
 Contributing
 ------------
 
-1. Gitee repository: [hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
-2. Issues and pull requests are welcome. [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
+1. github repository:
+    1. repository: [hanzibox-l3](https://github.com/registor/hanzibox-l3)
+    2. Issues and pull requests are welcome. [issue](https://github.com/registor/hanzibox-l3/issues) or [pull request](https://github.com/registor/hanzibox-l3/pulls).
+
+2. gitee repository:
+    1. repository: [hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
+    2. Issues and pull requests are welcome. [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
 
 =======
 基于LaTeX3的带注音和译文的汉字练习宏包
@@ -45,10 +50,14 @@ Contributing
 
 ###  参与贡献
 ---------------------
-1. 本项目由西北农林科技大学信息工程学院耿楠创建和维护
-2. 如果您愿意一同参与工作(不计报酬，免费自由)，请及时与作者联系
-3. 项目的gitee仓库地址：[hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
-4. 如果您有任何改进意见或者功能需求，欢迎提交 [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) 或 [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls)。
+
+1. github仓库:
+    1. 仓库地址: [hanzibox-l3](https://github.com/registor/hanzibox-l3)
+    2. Issues和PR: [issue](https://github.com/registor/hanzibox-l3/issues) or [pull request](https://github.com/registor/hanzibox-l3/pulls).
+
+2. gitee仓库:
+    1. 仓库地址: [hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
+    2. Issues and PR: [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
 
 Copyright and Licence
 ---------------------
@@ -171,12 +180,12 @@ Copyright and Licence
   {\texttt{#1\breakablethinspace=\breakablethinspace#2}}
 \def\breakablethinspace{\hskip 0.16667em\relax}
 \begin{document}
-%<!--CODEDOC-->  \DisableImplementation
-  \EnableImplementation
+  \DisableImplementation
+%<!--CODEDOC-->  \EnableImplementation
   \DocInput{\jobname.dtx}
-  \IndexLayout
-  \PrintChanges
-  \PrintIndex
+%<!--CODEDOC-->  \IndexLayout
+%<!--CODEDOC-->  \PrintChanges
+%<!--CODEDOC-->  \PrintIndex
 \end{document}
 %</driver>
 % \fi
@@ -2579,7 +2588,7 @@ Copyright and Licence
   {
     \draw_begin:
       \draw_linewidth:n { 0.4pt }
-      \color_stroke:n { hanziboxcrosscolor }
+      \color_stroke:n { hanziboxframecolor!50 }
 
       \draw_path_scope_begin:
         \@@_frame_type_c:n { pinyinlines }
