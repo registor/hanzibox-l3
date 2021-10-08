@@ -21,12 +21,12 @@ Contributing
 ------------
 
 1. github repository:
-    1. repository: [hanzibox-l3](https://github.com/registor/hanzibox-l3)
-    2. Issues and pull requests are welcome. [issue](https://github.com/registor/hanzibox-l3/issues) or [pull request](https://github.com/registor/hanzibox-l3/pulls).
+    (1). repository: [hanzibox-l3](https://github.com/registor/hanzibox-l3)
+    (2). Issues and pull requests are welcome. [issue](https://github.com/registor/hanzibox-l3/issues) or [pull request](https://github.com/registor/hanzibox-l3/pulls).
 
 2. gitee repository:
-    1. repository: [hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
-    2. Issues and pull requests are welcome. [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
+    (1). repository: [hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
+    (2). Issues and pull requests are welcome. [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
 
 =======
 基于LaTeX3的带注音和译文的汉字练习宏包
@@ -46,12 +46,12 @@ Contributing
 ---------------------
 
 1. github仓库:
-    1. 仓库地址: [hanzibox-l3](https://github.com/registor/hanzibox-l3)
-    2. Issues和PR: [issue](https://github.com/registor/hanzibox-l3/issues) or [pull request](https://github.com/registor/hanzibox-l3/pulls).
+    (1). 仓库地址: [hanzibox-l3](https://github.com/registor/hanzibox-l3)
+    (2). Issues和PR: [issue](https://github.com/registor/hanzibox-l3/issues) or [pull request](https://github.com/registor/hanzibox-l3/pulls).
 
 2. gitee仓库:
-    1. 仓库地址: [hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
-    2. Issues and PR: [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
+    (1). 仓库地址: [hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
+    (2). Issues and PR: [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
 
 Copyright and Licence
 ---------------------
