@@ -1,5 +1,4 @@
-hanzibox
-LaTeX3-based Chinese Character package
+Boxed Chinese characters with Pinyin above and translation below based LaTeX3
 =======
 
 `hanzibox` is a LaTeX package developed in LaTeX3, which provides `\hanzibox` and `\hanzidialog` macros. These two macros are used for typesetting Chinese character with or without a background grid such as a cross grid or star grid for Chinese character writting learning.
@@ -25,8 +24,7 @@ Contributing
 2. Issues and pull requests are welcome. [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
 
 =======
-hanzibox
-基于LaTeX3的汉字练习宏包
+基于LaTeX3的带注音和译文的汉字练习宏包
 =======
 
 `hanzibox`是一个用LaTeX3开发的LaTeX宏包，它提供了`\hanzibox`和`\hanzidialog` 两个命令。这两个命令分别用于排版汉字学习中带有或不带田字格、米字格等背景格子的汉字，并可以根据需要在汉字正上方显示拼音，在正下方显示译文。其中，`\hanzibox`命令能够根据汉字自动调用`xpinyin`宏包的`\xpinyin*`命令实现汉字注音。并且`\hanzibox`命令提供了`\hanzibox*`星号版本，其注音功能是通过自动调用`xpinyin`宏包的`\pinyin`命令实现的。`\hanzidialog`命令的注音功能是通过在拼音选项中手动插入`xpinyin`宏包`\pinyin`命令实现的。

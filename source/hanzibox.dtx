@@ -4,8 +4,7 @@
 \iffalse
 %</internal>
 %<*readme>
-hanzibox
-LaTeX3-based Chinese Character package
+Boxed Chinese characters with Pinyin above and translation below based LaTeX3
 =======
 
 `hanzibox` is a LaTeX package developed in LaTeX3, which provides `\hanzibox` and `\hanzidialog` macros. These two macros are used for typesetting Chinese character with or without a background grid such as a cross grid or star grid for Chinese character writting learning.
@@ -31,8 +30,7 @@ Contributing
 2. Issues and pull requests are welcome. [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
 
 =======
-hanzibox
-基于LaTeX3的汉字练习宏包
+基于LaTeX3的带注音和译文的汉字练习宏包
 =======
 
 `hanzibox`是一个用LaTeX3开发的LaTeX宏包，它提供了`\hanzibox`和`\hanzidialog` 两个命令。这两个命令分别用于排版汉字学习中带有或不带田字格、米字格等背景格子的汉字，并可以根据需要在汉字正上方显示拼音，在正下方显示译文。其中，`\hanzibox`命令能够根据汉字自动调用`xpinyin`宏包的`\xpinyin*`命令实现汉字注音。并且`\hanzibox`命令提供了`\hanzibox*`星号版本，其注音功能是通过自动调用`xpinyin`宏包的`\pinyin`命令实现的。`\hanzidialog`命令的注音功能是通过在拼音选项中手动插入`xpinyin`宏包`\pinyin`命令实现的。
@@ -154,7 +152,7 @@ Copyright and Licence
 %</internal>
 %<package>\NeedsTeXFormat{LaTeX2e}[2020/10/01]
 %<package>\RequirePackage{expl3}
-%<+package>\GetIdInfo$Id: hanzibox.dtx 2.1.0 2021-09-30 08:00:00 +0800 Nan Geng <nangeng@nwafu.edu.cn> $
+%<+package>\GetIdInfo$Id: hanzibox.dtx 2.2.0 2021-10-08 08:00:00 +0800 Nan Geng <nangeng@nwafu.edu.cn> $
 %<package>  {Boxed Chinese characters with Pinyin above and translation below.}
 %<package>\ProvidesExplPackage{\ExplFileName}
 %<package>  {\ExplFileDate}{\ExplFileVersion}{\ExplFileDescription}
@@ -173,7 +171,7 @@ Copyright and Licence
   {\texttt{#1\breakablethinspace=\breakablethinspace#2}}
 \def\breakablethinspace{\hskip 0.16667em\relax}
 \begin{document}
-  \DisableImplementation
+%<!--CODEDOC-->  \DisableImplementation
   \EnableImplementation
   \DocInput{\jobname.dtx}
   \IndexLayout
@@ -213,6 +211,7 @@ Copyright and Licence
 % \maketitle
 %
 % \changes{v2.0.0}{2021/09/28}{修订说明文档}
+% \changes{v2.1.2}{2021/10/07}{为说明文档添加目录}
 %
 % \begin{documentation}
 %
@@ -228,6 +227,8 @@ Copyright and Licence
 %
 % \end{abstract}
 %
+% \tableofcontents
+%
 % \section{简要说明}
 %
 % \pkg{hanzibox} 是一个用于输出汉字学习中的田字格、米字格等背景，并在汉字正上方显示拼音，
@@ -240,7 +241,9 @@ Copyright and Licence
 %
 % \section{用户接口}
 %
-% \begin{function}[added=2021-09-18,updated=2021-09-30]{\hanzibox,\hanzibox*}
+% \subsection{\tn{hanzibox}命令}
+%
+% \begin{function}[added=2021-09-18,updated=2021-10-07]{\hanzibox,\hanzibox*}
 %   \begin{syntax}
 %     \tn{hanzibox}  \oarg{外观选项} \Arg{汉字} \oarg{拼音选项} \oarg{译文选项}
 %     \tn{hanzibox*} \oarg{外观选项} \Arg{汉字} \oarg{拼音选项} \oarg{译文选项}
@@ -255,32 +258,34 @@ Copyright and Licence
 %
 %   排版样式可通过\tn{hanziboxset}命令或\tn{hanzibox}\oarg{外观选项}的key-value进行设置。
 %
-%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.40\linewidth,gobble=5]
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.35\linewidth,gobble=5]
 %     \centering
 %     \hanziboxset{fillcolor=yellow!30, charcolor=red,
 %       xscale=1.5,yscale=1.5,resize=real,framecolor=red}
-%     \hanzibox[frametype=none]{我}
-%     \hanzibox[frametype=口  ]{我}[][吾]
+%     \hanzibox[frametype=none]{我}\\[1ex]
 %     \hanzibox[frametype=十  ]{我}[wo3][俺]
 %     \hanzibox[frametype=×   ]{我}[wo2][爷]
-%     \hanzibox[frametype=田  ]{我}[wo1][愚]
-%     \hanzibox[frametype=米  ]{我}[ni3][奴]
-%     \hanzibox[frametype=咪  ]{我}[ta1][山人]
+%     \hanzibox[frametype=米  ]{我}[ni3][奴]\\[1ex]
+%     \hanzibox[frametype=口,pinyinline=true]{我}[][吾]
+%     \hanzibox[frametype=田,pinyinline=true]{我}[wo1][愚]
+%     \hanzibox[frametype=咪,pinyinline=true]{我}[ta1][山人]
 %   \end{SideBySideExample}
-%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.40\linewidth,gobble=5]
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.35\linewidth,gobble=5]
 %     \centering
 %     \hanziboxset{xscale=1.5,yscale=1.5,resize=real}
-%     \hanzibox*[frametype=none]{我}[wo3][me]
-%     \hanzibox*[frametype=口  ]{我}[wo3][吾]
+%     \hanzibox*[frametype=none]{我}[wo3][me]\\[1ex]
 %     \hanzibox*[frametype=十  ]{我}[wo3][俺]
 %     \hanzibox*[frametype=×   ]{我}[wo3][爷]
-%     \hanzibox*[frametype=田  ]{我}[wo2][愚]
-%     \hanzibox*[frametype=米  ]{我}[ni3][奴]
-%     \hanzibox*[frametype=咪  ]{我}[ta5][山人]
+%     \hanzibox*[frametype=米  ]{我}[ni3][奴]\\[1ex]
+%     \hanzibox*[frametype=口,pinyinline=true]{我}[wo3][吾]
+%     \hanzibox*[frametype=田,pinyinline=true]{我}[wo2][愚]
+%     \hanzibox*[frametype=咪,pinyinline=true]{我}[ta5][山人]
 %   \end{SideBySideExample}
 % \end{function}
 %
-% \begin{function}[added=2021-09-18,updated=2021-09-28]{\hanzidialog}
+% \subsection{\tn{hanzidialog}命令}
+%
+% \begin{function}[added=2021-09-18,updated=2021-10-07]{\hanzidialog}
 %   \begin{syntax}
 %     \tn{hanzidialog} \oarg{外观选项} \Arg{汉字} \oarg{拼音选项} \oarg{译文选项}
 %   \end{syntax}
@@ -297,11 +302,13 @@ Copyright and Licence
 %     \hanzidialog[frametype=田]{王老师}[Wang \pinyin{lao3shi1}]
 %                 [王先生]
 %
-%     \hanzidialog[height=1cm,frametype=咪,framecolor=red,resize=real]
+%     \hanzidialog[frametype=咪,framecolor=red,pinyinline=true,
+%                  height=1cm,resize=real,pinyincolor=blue]
 %                 {王老师}[Wang \pinyin{lao3shi1}][王先生]
-%
 %   \end{SideBySideExample}
 % \end{function}
+%
+% \subsection{\tn{hanziboxset}命令}
 %
 % \begin{function}[added=2021-09-20,updated=2021-09-24]{\hanziboxset}
 %   \begin{syntax}
@@ -325,6 +332,8 @@ Copyright and Licence
 %   载入\pkg{hanzibox}宏包后，以下选项均可通过统一命令\tn{hanziboxset}进行设置。
 %   同时，这些选项也可以通过\tn{hanzibox}或\tn{hanzidialog}命令的\oarg{外观选项}进行设置。
 %
+% \subsection{基础字符和字号}
+%
 % \begin{function}[added=2021-09-24,updated=2021-09-24]{basechar,zihao}
 %   \begin{syntax}
 %     basechar = \meta{CJK char} \init{好}
@@ -332,35 +341,42 @@ Copyright and Licence
 %   \end{syntax}
 %   \opt{basechar} 设置基字符，用于计算缩放比例，
 %   基字符不同时，即使给定相同的缩放比例，其实际缩放比例也可能不同。
-% 
+%
 %   \opt{zihao} 设置计算缩放比例时字号大小。
 % \end{function}
 %
-% \begin{function}[added=2021-09-27,updated=2021-09-28]{pinyinf,charf,tranf}
+% \subsection{拼音、汉字和译文格式}
+%
+% \begin{function}[added=2021-09-27,updated=2021-10-08]{pinyinf,charf,tranf}
 %   \begin{syntax}
 %     pinyinf = \meta{格式命令}   \init{\normalsize}
 %     charf   = \meta{格式命令}   \init{\tiny}
 %     tranf   = \meta{格式命令}   \init{\tiny}
 %   \end{syntax}
-%   分别用于设置拼音、汉字、译文的排版格式。
+%   分别用于设置拼音、汉字、译文的排版格式，主要用于设置字号、字体、粗细等格式。
 % \end{function}
 %
-% \begin{function}[added=2021-09-24,updated=2021-09-24]{frametype,resize}
+% \subsection{外框类型和缩放方式}
+%
+% \begin{function}[added=2021-09-24,updated=2021-10-08]{frametype,resize}
 %  \begin{syntax}
-%    frametype = <none|口|十|田|米|咪> \init{none}
+%    frametype = <none|十|×|米|口|田|咪> \init{none}
 %    resize    = <none|real|base> \init{none}
 %  \end{syntax}
-%  \opt{frametype} 设置汉字盒子样式。可用值的效果与选项值文字形状类似：\verb|口|--仅方框，
-%  \verb|十|--仅中间的横线和竖线，\verb|田|--常见的田字格，\verb|米|--十字格再加上斜的两条对角线，
-%  \verb|咪|--常见的米字格。
+%  \opt{frametype} 设置汉字盒子样式。可用值的效果与选项值文字形状类似：
+%  \verb|十|--仅中间的横线和竖线，\verb|×|--仅中间的两条对角线，
+%  \verb|米|--十字格再加上斜的两条对角线，
+%  \verb|口|--仅方框，\verb|田|--常见的田字格，\verb|咪|--常见的米字格。
+% \end{function}
 %
 %   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.50\linewidth,gobble=5]
 %     \centering
-%     \hanzibox[frametype=none]{无}
-%     \hanzibox[frametype=口  ]{口}
+%     \hanzibox[frametype=none]{无}\\[1ex]
 %     \hanzibox[frametype=十  ]{十}
+%     \hanzibox[frametype=×   ]{十}
+%     \hanzibox[frametype=米  ]{米}\\[1ex]
+%     \hanzibox[frametype=口  ]{口}
 %     \hanzibox[frametype=田  ]{田}
-%     \hanzibox[frametype=米  ]{米}
 %     \hanzibox[frametype=咪  ]{咪}
 %   \end{SideBySideExample}
 %
@@ -376,7 +392,8 @@ Copyright and Licence
 %     \hanzibox[resize=real  ]{实}
 %     \hanzibox[resize=base  ]{基}
 %   \end{SideBySideExample}
-% \end{function}
+%
+% \subsection{缩放比例及尺寸}
 %
 % \begin{function}[added=2021-09-24,updated=2021-09-24]{
 %   xscale,yscale,scale,
@@ -396,6 +413,8 @@ Copyright and Licence
 %   此处的宽高和最终的宽高可能略有差异，最终的宽高保存在
 %   \tn{hanziboxwidth} 和 \tn{hanziboxheight} dim寄存器中。
 % \end{function}
+%
+% \subsection{盒子样式}
 %
 % \begin{function}[added=2021-09-24,updated=2021-09-24]{
 %   linewidth,
@@ -423,11 +442,17 @@ Copyright and Licence
 %   \end{SideBySideExample}
 % \end{function}
 %
-% \begin{function}[added=2021-09-24,updated=2021-09-24]{
+% \subsection{颜色设置}
+%
+% \begin{function}[added=2021-09-24,updated=2021-10-07]{
 %   framecolor,
 %   framecolor*,
 %   charcolor,
 %   charcolor*,
+%   pinyincolor,
+%   pinyincolor*,
+%   trancolor,
+%   trancolor*,
 %   fillcolor,
 %   fillcolor*
 %   }
@@ -436,15 +461,63 @@ Copyright and Licence
 %     framecolor* = \meta{model(s)} \meta{value(s)}
 %     charcolor   = \meta{color expr} \init{black}
 %     charcolor*  = \meta{model(s)} \meta{value(s)}
+%     pinyincolor   = \meta{color expr} \init{black}
+%     pinyincolor*  = \meta{model(s)} \meta{value(s)}
+%     trancolor   = \meta{color expr} \init{black}
+%     trancolor*  = \meta{model(s)} \meta{value(s)}
 %     fillcolor   = \meta{color expr}
 %     fillcolor*  = \meta{model(s)} \meta{value(s)}
 %   \end{syntax}
-%   分别设置格子线条、字符和填充颜色。
+%   分别设置格子线条、字符、拼音、译文和填充颜色。
 %   颜色名称仅支持 \LaTeX3 定义的 black, white, red, green, blue, cyan, magenta 和 yellow。
 %   颜色模型和表达式也应使用 \LaTeX3 支持的模型和表达式，详见 \pkg{interface3.pdf} 文档。
 %
 %   若要去掉 \opt{fillcolor}，应将其置为空(\verb|fillcolor={}|)，而不是将其设置为white(白色)。
 % \end{function}
+%
+% \begin{function}[added=2021-10-07,updated=2021-10-07]{crosscolorratio}
+%   \begin{syntax}
+%     crosscolorratio  = \meta{integer} \init{20}
+%   \end{syntax}
+%   格子内部十字线或米字线颜色占边框颜色的比例(0%$\sim$100%)。
+%
+%   \textcolor[HTML]{AD1457}{注：\textsf{crosscolorratio}选项须在设置了\textsf{framecolor}选项后才能生效}。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.25\linewidth,gobble=5]
+%     \centering
+%     \hanzibox[frametype=咪,framecolor=red]{十}
+%     \hanzibox[frametype=咪,crosscolorratio=30,framecolor=red]{田}
+%     \hanzibox[frametype=咪,crosscolorratio=50,framecolor=red]{米}
+%     \hanzibox[frametype=咪,crosscolorratio=80,framecolor=red]{咪}
+%   \end{SideBySideExample}
+% \end{function}
+%
+% \changes{v2.2.0}{2021/10/08}{新增\opt{charstroke}选项}
+%
+% \subsection{字符轮廓类型}
+%
+% \begin{function}[added=2021-10-08,updated=2021-10-08]{charstroke}
+%   \begin{syntax}
+%     charstroke = <none|solid|dashed|invisible> \init{none}
+%   \end{syntax}
+%   设置字符的外框样式。
+%
+%   初始值 \opt{none} 按原样输出。\opt{solid} 设置外轮廓为 0.15bp 的实线，
+%   \opt{dashed} 设置外轮廓为 0.15bp 的虚线，同时，不填充轮廓内部，显示为背景颜色。
+%   \opt{invisible} 将字符设置为不可见，但不影响背景和网格的显示，隐藏的字仍然可被复制。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.30\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{width=1.0cm,resize=real,frametype=咪,
+%                  framecolor=red}
+%     \hanzibox[charstroke=none                           ]{我}
+%     \hanzibox[charstroke=solid,charcolor=red            ]{我}\\
+%     \hanzibox[charstroke=dashed,charcolor=green!40!black]{我}
+%     \hanzibox[charstroke=invisible                      ]{我}
+%   \end{SideBySideExample}
+% \end{function}
+%
+% \subsection{声母、韵母和声调开关}
 %
 % \begin{function}[added=2021-09-24,updated=2021-09-24]{initial,vowel,tone}
 %   \begin{syntax}
@@ -455,6 +528,7 @@ Copyright and Licence
 %   分别用于设置是否输出拼音的声母、韵母和声调，默认值为\textbf{true}。
 %   该选项仅对\tn{hanzibox}命令有效。
 %   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.33\linewidth,gobble=5]
+%
 %     \centering
 %     \hanziboxset{frametype=咪,framecolor=red,
 %                  fillcolor=yellow!40,resize=real}
@@ -468,6 +542,7 @@ Copyright and Licence
 %       [How long will the full moon appear?]\\[0.5ex]
 %     \hanzibox[initial=false,vowel=false]{明有几时有}
 %       [][How long will the full moon appear?]
+%
 %   \end{SideBySideExample}
 %   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.28\linewidth,gobble=5]
 %     \centering
@@ -478,6 +553,27 @@ Copyright and Licence
 %     \hanzibox*[initial=true,vowel=true,tone=false]{我}[wo3][不才]
 %   \end{SideBySideExample}
 % \end{function}
+%
+% \subsection{拼音四线格开关}
+%
+% \begin{function}[added=2021-10-07,updated=2021-10-08]{pinyinline}
+%   \begin{syntax}
+%     pinyinline = <\TFF> \init{false}
+%   \end{syntax}
+%   用于设置是否输出拼音四线格，默认值为\textbf{false}。
+%   注意，为保持拼音对齐一致性，\verb!pinyinline=false!时，
+%   仅是不输出拼音四线格，但拼音四线格的占位仍然存在。
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.33\linewidth,gobble=5]
+%     \centering
+%     \hanziboxset{frametype=咪,framecolor=red,charf=\large,
+%                  fillcolor=yellow!40}
+%     \hanzibox[pinyinline=false]{明月几时有}[]
+%       [How long will the full moon appear?]\\[0.5ex]
+%     \hanzibox[pinyinline=true]{明月几时有}[]
+%   \end{SideBySideExample}
+% \end{function}
+%
+% \subsection{拼音、汉字和译文开关}
 %
 % \begin{function}[added=2021-09-21,updated=2021-09-26]{pinyin,hanzi,tran}
 %   \begin{syntax}
@@ -501,6 +597,7 @@ Copyright and Licence
 % \end{function}
 %
 % \changes{v2.0.0}{2021/09/28}{在说明文档中添加应用实例}
+% \changes{v2.2.0}{2021/10/07}{为部分实例添加拼音四线格}
 %
 % \section{应用实例}
 %
@@ -510,19 +607,20 @@ Copyright and Licence
 %
 %   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.45\linewidth,gobble=5]
 %     \centering
-%     \hanziboxset{frametype=田,framecolor=blue}
+%     \hanziboxset{frametype=田,framecolor=blue,
+%                  charf=\Huge,pinyinf=\small}
 %     \hanzibox{门}\hanzibox[hanzi=false]{口}\hfill
-%     \hanzibox{生}\hanzibox[hanzi=false]{日}\hfill
+%     \hanzibox{生}\hanzibox[hanzi=false]{日}\\
 %     \hanzibox{题}\hanzibox[hanzi=false]{目}\hfill
 %     \hanzibox[hanzi=false]{田}\hanzibox{野}
 %   \end{SideBySideExample}
 %
 % \subsection{标注声母练习}
 %
-%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.35\linewidth,gobble=5]
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.32\linewidth,gobble=5]
 %     \centering
 %     \hanziboxset{frametype=咪,framecolor=red,charcolor=red,
-%                  charf=\Huge,pinyinf=\small,initial=false}
+%      pinyinline=true,charf=\Huge,pinyinf=\small,initial=false}
 %     \hanzibox{门口}\hfill
 %     \hanzibox{生日}\\
 %     \hanzibox{题目}\hfill
@@ -531,10 +629,10 @@ Copyright and Licence
 %
 % \subsection{标注韵母练习}
 %
-%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.35\linewidth,gobble=5]
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.32\linewidth,gobble=5]
 %     \centering
 %     \hanziboxset{frametype=咪,framecolor=red,charcolor=red,
-%                  charf=\Huge,pinyinf=\small,vowel=false}
+%       pinyinline=true,charf=\Huge,pinyinf=\small,vowel=false}
 %     \hanzibox{门口}\hfill
 %     \hanzibox{生日}\\
 %     \hanzibox{题目}\hfill
@@ -543,10 +641,10 @@ Copyright and Licence
 %
 % \subsection{标注声调练习}
 %
-%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.35\linewidth,gobble=5]
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.32\linewidth,gobble=5]
 %     \centering
 %     \hanziboxset{frametype=咪,framecolor=red,charcolor=red,
-%                  charf=\Huge,pinyinf=\small,tone=false}
+%       pinyinline=true,charf=\Huge,pinyinf=\small,tone=false}
 %     \hanzibox{门口}\hfill
 %     \hanzibox{生日}\\
 %     \hanzibox{题目}\hfill
@@ -621,6 +719,8 @@ Copyright and Licence
 %     \ExplSyntaxOff
 %   \end{SideBySideExample}
 %
+% \changes{v2.1.1}{2021/10/07}{在格子纸示例中用coffin实现每行格子以提升编译速度}
+%
 % \subsection{生成汉字书写练习格子纸}
 %
 % 可以通过将\tn{hanzibox}命令的\Arg{汉字}参数留空，
@@ -629,36 +729,46 @@ Copyright and Licence
 % 再根据需要通过循环的方式生成指定行数和列数的
 % 汉字书写练习用格子纸。
 %
-%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.50\linewidth,gobble=5]
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.43\linewidth,gobble=5]
 %     \hanziboxset{frametype=咪,framecolor=red,
-%        charcolor=red,charf=\huge}
+%                  charcolor=red,charf=\huge}
 %     \centering
 %     \ExplSyntaxOn
-%     \int_step_inline:nn {8}
+%     \hcoffin_set:Nn \l_tmpa_coffin
 %       {
 %         \int_step_inline:nn {6}
 %           {
 %             \hanzibox{}
-%             \hspace*{-0.4pt}
+%             \hspace*{-0.35pt}
 %           }
+%       }
+%     \int_step_inline:nn {8}
+%       {
+%         \coffin_typeset:Nnnnn
+%           \l_tmpa_coffin { l } { b } { 0pt } { 0pt }
 %         \par\nointerlineskip\vspace*{-3.3pt}
 %      }
 %     \ExplSyntaxOff
 %   \end{SideBySideExample}
 %
-%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.50\linewidth,gobble=5]
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.43\linewidth,gobble=5]
 %     \hanziboxset{frametype=咪,framecolor=red,
-%        charcolor=red,charf=\huge,hanzi=false}
+%       pinyinline=true,charf=\huge,hanzi=false}
 %     \centering
 %     \ExplSyntaxOn
-%     \int_step_inline:nn {8}
+%     \hcoffin_set:Nn \l_tmpa_coffin
 %       {
 %         \int_step_inline:nn {6}
 %           {
 %             \hanzibox*{国}
-%             \hspace*{-0.4pt}
+%             \hspace*{-0.35pt}
 %           }
-%         \par\nointerlineskip\vspace*{-6.30pt}
+%       }
+%     \int_step_inline:nn {8}
+%       {
+%         \coffin_typeset:Nnnnn
+%           \l_tmpa_coffin { l } { b } { 0pt } { 0pt }
+%         \par\nointerlineskip
 %      }
 %     \ExplSyntaxOff
 %   \end{SideBySideExample}
@@ -674,7 +784,9 @@ Copyright and Licence
 %     \setpinyin{尽}{jin4}
 %     \hanziboxset{frametype=咪,framecolor=red,
 %       charf=\huge,pinyinf=\footnotesize,
-%       charcolor=green!40!black}
+%       charcolor=green!40!black,
+%       pinyincolor=green!40!black,
+%       trancolor=green!40!black}
 %     \centering
 %     \hanzibox{故人西辞黄鹤楼}
 %     \hanzibox{烟花三月下扬州}
@@ -690,12 +802,32 @@ Copyright and Licence
 %
 %   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.33\linewidth,gobble=5]
 %     \hanziboxset{frametype=咪,framecolor=red,charf=\Large,
-%       charcolor=green!40!black,}
+%       pinyinline=true,charcolor=green!40!black,
+%       pinyincolor=red!40!black,trancolor=blue!40!black}
 %     \centering
 %     \hanzibox*{故人西辞黄鹤楼}[gu4ren2xi1ci2huang2he2lou2]
 %     \hanzibox*{烟花三月下扬州}[yan1hua1san1yue4]
 %     \hanzibox*{孤帆远影      }[gu1fan1yuan3ying3bi4kong1jin4]
 %     \hanzibox*{}[wei2jian4chang2jiang1tian1ji4liu2]
+%   \end{SideBySideExample}
+%
+% \subsection{生成描红练习}
+%
+% 合理的设置汉字的颜色浓淡或通过\verb!charstroke!选项设置
+% 汉字轮廓选项，可以生成用于描红练习的格子纸。
+%
+% 若设置\verb!charstroke=invisible!，则会使汉字隐藏不可见，
+% 但隐藏的汉字仍然可被复制。
+%
+%   \begin{SideBySideExample}[frame=single,numbers=left,xrightmargin=.33\linewidth,gobble=5]
+%     \hanziboxset{frametype=咪,framecolor=red,pinyinline=true,
+%       pinyincolor=green!30!black,charf=\Large,pinyinf=\small}
+%     \centering
+%     \hanzibox[charcolor=red!30,pinyincolor=red]{讲普通话}
+%     \hanzibox[charcolor=black!30,pinyinline=false]{写规范字}
+%     \hanzibox[charcolor=red,charstroke=solid]{讲普通话}
+%     \hanzibox[charcolor=black,charstroke=dashed]{写规范字}
+%     \hanzibox[charcolor=red,charstroke=invisible]{讲普通话}
 %   \end{SideBySideExample}
 %
 % \end{documentation}
@@ -756,7 +888,7 @@ Copyright and Licence
 %
 %    \end{macrocode}
 %
-% \changes{v2.1.1}{2021/10/03}{修订盒子高度计算函数的expl3版本兼容问题}
+% \changes{v2.1.1}{2021/10/03}{解决盒子高度计算函数的expl3版本兼容问题}
 %
 % 判断\tn{box_ht_plus_dp:N}函数是否存在，若不存在，则定义该函数。
 % 为了解决expl3的旧版本兼容问题。
@@ -770,7 +902,7 @@ Copyright and Licence
   }
 %    \end{macrocode}
 %
-% 检查编译引擎
+% 检查编译引擎，目前仅支持xetex引擎。
 %
 %    \begin{macrocode}
 \sys_if_engine_xetex:F
@@ -839,12 +971,15 @@ Copyright and Licence
 % \changes{v1.1.0}{2021/09/21}{添加缩放比例，前景/背景色，隐藏控制变量。}
 % \changes{v2.0.0}{2021/09/24}{根据l3draw的需要重新设计各个变量。}
 % \changes{v2.1.0}{2021/09/30}{添加记录拼音返回结果的clist变量。}
+% \changes{v2.2.0}{2021/10/07}{添加拼音线开关及拼音和译文颜色变量}
+% \changes{v2.2.0}{2021/10/08}{添加字符轮廓类型变量}
 %
 % \begin{variable}{\l_@@_autopinyin_bool,
 %   \l_@@_withinitial_bool,
 %   \l_@@_withvowel_bool,
 %   \l_@@_withtone_bool,
 %   \l_@@_withpinyin_bool,
+%   \l_@@_withpinyinlines_bool,
 %   \l_@@_withhanzi_bool,
 %   \l_@@_withtran_bool,
 %   \l_@@_basebox_box,
@@ -855,6 +990,9 @@ Copyright and Licence
 %   \l_@@_frame_size_dim,
 %   \l_@@_char_width_dim,
 %   \l_@@_char_height_dim,
+%   \l_@@_pinyin_height_i_dim,
+%   \l_@@_pinyin_height_ii_dim,
+%   \l_@@_pinyin_height_iii_dim,
 %   \l_@@_box_width_dim,
 %   \l_@@_box_height_dim,
 %   \l_@@_linewidth_dim,
@@ -870,9 +1008,11 @@ Copyright and Licence
 %   \l_@@_pinyin_format_tl,
 %   \l_@@_character_format_tl,
 %   \l_@@_translation_format_tl,
+%   \l_@@_cross_color_ratio_int,
 %   \l_@@_pinyin_int,
 %   \l_@@_character_int,
 %   \l_@@_translation_int,
+%   \l_@@_charstroke_type_int,
 %   \l_@@_tone_int,
 %   \l_@@_pinyin_str,
 %   \l_@@_initial_tl,
@@ -886,6 +1026,7 @@ Copyright and Licence
 \bool_new:N   \l_@@_withvowel_bool
 \bool_new:N   \l_@@_withtone_bool
 \bool_new:N   \l_@@_withpinyin_bool
+\bool_new:N   \l_@@_withpinyinlines_bool
 \bool_new:N   \l_@@_withhanzi_bool
 \bool_new:N   \l_@@_withtran_bool
 
@@ -897,6 +1038,9 @@ Copyright and Licence
 \dim_new:N    \l_@@_frame_size_dim
 \dim_new:N    \l_@@_char_width_dim
 \dim_new:N    \l_@@_char_height_dim
+\dim_new:N    \l_@@_pinyin_height_i_dim
+\dim_new:N    \l_@@_pinyin_height_ii_dim
+\dim_new:N    \l_@@_pinyin_height_iii_dim
 \dim_new:N    \l_@@_box_width_dim
 \dim_new:N    \l_@@_box_height_dim
 \dim_new:N    \l_@@_linewidth_dim
@@ -919,9 +1063,11 @@ Copyright and Licence
 \tl_new:N     \l_@@_pinyin_format_tl
 \tl_new:N     \l_@@_character_format_tl
 \tl_new:N     \l_@@_translation_format_tl
+\int_new:N    \l_@@_cross_color_ratio_int
 \int_new:N    \l_@@_pinyin_int
 \int_new:N    \l_@@_character_int
 \int_new:N    \l_@@_translation_int
+\int_new:N    \l_@@_charstroke_type_int
 
 \int_new:N    \l_@@_tone_int
 \str_new:N    \l_@@_pinyin_str
@@ -940,6 +1086,36 @@ Copyright and Licence
 %    \begin{macrocode}
 \cs_new_nopar:Nn \@@_aux_color_fill:
   { }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.2.0}{2021/10/07}{添加拼音高度计算函数}
+%
+% \subsubsection{计算拼音高度}
+%
+% \begin{macro}{\@@_calc_pinyin_h:}
+% 计算拼音盒子高度
+%    \begin{macrocode}
+\cs_new:Npn \@@_calc_pinyin_h:
+  {
+    \hbox_set:Nn \l_tmpa_box
+      {
+        \tl_use:N \l_@@_pinyin_format_tl
+        a
+      }
+    \dim_set:Nn \l_@@_pinyin_height_i_dim
+      {
+        \box_ht:N \l_tmpa_box
+      }
+    \dim_set:Nn \l_@@_pinyin_height_ii_dim
+      {
+        \l_@@_pinyin_height_i_dim + \l_@@_pinyin_height_i_dim
+      }
+    \dim_set:Nn \l_@@_pinyin_height_iii_dim
+      {
+        \l_@@_pinyin_height_i_dim + \l_@@_pinyin_height_i_dim + \l_@@_pinyin_height_i_dim
+      }
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -972,7 +1148,7 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
-% \changes{v2.0.0}{2021/09/28}{添加根据基字符格式计算外观盒子尺寸的函数}
+% \changes{v2.0.0}{2021/09/28}{添加根据基字符格式计算盒子尺寸函数}
 %
 % \begin{macro}{\@@_calc_frame_size:}
 % 计算外框长度(正方形，由基字符按charf选项设定的格式构造的盒子确定)
@@ -1042,53 +1218,116 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
+% \changes{v2.2.0}{2021/10/07}{添加拼音四线格绘制函数}
+%
+%    \begin{macrocode}
+\@@_new_frame_construct:nn { pinyinlines }
+  {
+    \bool_if:NTF \l_@@_withpinyinlines_bool
+      {
+        \draw_scope_begin:
+          \draw_path_moveto:n { #1, 0 }
+          \draw_path_lineto:n { #3, 0 }
+          \draw_path_moveto:n { #1, \l_@@_pinyin_height_i_dim }
+          \draw_path_lineto:n { #3, \l_@@_pinyin_height_i_dim }
+          \draw_path_moveto:n { #1, \l_@@_pinyin_height_ii_dim }
+          \draw_path_lineto:n { #3, \l_@@_pinyin_height_ii_dim }
+          \draw_path_moveto:n { #1, \l_@@_pinyin_height_iii_dim }
+          \draw_path_lineto:n { #3, \l_@@_pinyin_height_iii_dim }
+          \draw_path_use_clear:n { stroke }
+        \draw_scope_end:
+      }
+      {
+        \draw_scope_begin:
+          \hcoffin_set:Nn \l_tmpa_coffin
+            {
+              \tl_use:N \l_@@_pinyin_format_tl
+              \phantom{a}
+            }
+
+          \coffin_resize:Nnn \l_tmpa_coffin
+            { #3 } { \l_@@_pinyin_height_iii_dim }
+
+          \draw_coffin_use:Nnn \l_tmpa_coffin { l } { b }
+        \draw_scope_end:
+      }
+  }
+%    \end{macrocode}
+%
+% \changes{v2.1.2}{2021/10/07}{分离汉字外框与填充绘制函数}
+%
+%    \begin{macrocode}
+\@@_new_frame_construct:nn { filledbox }
+  {
+    \cs_if_eq:NNF \@@_aux_color_fill: \c_empty_tl
+      {
+        \color_stroke:n { hanziboxframecolor }
+        \draw_path_rectangle_corners:nn { #1, #2} { #3, #4}
+
+        \draw_path_use_clear:n { stroke, fill }
+      }
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+\@@_new_frame_construct:nn { framebox }
+  {
+    \draw_scope_begin:
+      \color_stroke:n { hanziboxframecolor }
+      \draw_path_rectangle_corners:nn { #1, #2} { #3, #4}
+      \draw_path_use_clear:n { stroke }
+    \draw_scope_end:
+  }
+%    \end{macrocode}
+%
 %    \begin{macrocode}
 \@@_new_frame_construct:nn { 口 }
   {
-    \color_stroke:n { hanziboxframecolor }
-    \draw_path_rectangle_corners:nn { #1, #2} { #3, #4}
-
-    \cs_if_eq:NNTF \@@_aux_color_fill: \c_empty_tl
-      {
-        \draw_path_use_clear:n { stroke }
-      }
-      {
-        \draw_path_use_clear:n { stroke , fill }
-      }
+    \@@_frame_type_c:n { filledbox } {#1} {#2} {#3} {#4} {#5} {#6}
+    \@@_frame_type_c:n { framebox } {#1} {#2} {#3} {#4} {#5} {#6}
   }
-
+%    \end{macrocode}
+%
+% \changes{v2.1.1}{2021/10/07}{内格子线颜色独立设置}
+%
+%    \begin{macrocode}
 \@@_new_frame_construct:nn { 十 }
   {
-    \tl_if_empty:NF \l_@@_dash_pattern_tl
-      {
-        \exp_args:No \draw_dash_pattern:nn { \l_@@_dash_pattern_tl } { 0pt }
-      }
-    \color_stroke:n { hanziboxframecolor!30 }
-    \draw_path_moveto:n { (#3)/2, #2 }
-    \draw_path_lineto:n { #3/2, #4 }
-    \draw_path_moveto:n { #1, (#4)/2 }
-    \draw_path_lineto:n { #3, (#4)/2 }
-    \draw_path_use_clear:n { stroke }
+    \draw_scope_begin:
+      \tl_if_empty:NF \l_@@_dash_pattern_tl
+        {
+          \exp_args:No \draw_dash_pattern:nn { \l_@@_dash_pattern_tl } { 0pt }
+        }
+      \color_stroke:n { hanziboxcrosscolor }
+      \draw_path_moveto:n { (#3)/2, #2 }
+      \draw_path_lineto:n { #3/2, #4 }
+      \draw_path_moveto:n { #1, (#4)/2 }
+      \draw_path_lineto:n { #3, (#4)/2 }
+      \draw_path_use_clear:n { stroke }
+    \draw_scope_end:
   }
 
 \@@_new_frame_construct:nn { × }
   {
-    \tl_if_empty:NF \l_@@_dash_pattern_tl
-      {
-        \exp_args:No \draw_dash_pattern:nn { \l_@@_dash_pattern_tl } { 0pt }
-      }
-    \color_stroke:n { hanziboxframecolor!30 }
-    \draw_path_moveto:n { #1, #2 }
-    \draw_path_lineto:n { #3, #4 }
-    \draw_path_moveto:n { #1, #4 }
-    \draw_path_lineto:n { #3, #2 }
-    \draw_path_use_clear:n { stroke }
+    \draw_scope_begin:
+      \tl_if_empty:NF \l_@@_dash_pattern_tl
+        {
+          \exp_args:No \draw_dash_pattern:nn { \l_@@_dash_pattern_tl } { 0pt }
+        }
+      \color_stroke:n { hanziboxcrosscolor }
+      \draw_path_moveto:n { #1, #2 }
+      \draw_path_lineto:n { #3, #4 }
+      \draw_path_moveto:n { #1, #4 }
+      \draw_path_lineto:n { #3, #2 }
+      \draw_path_use_clear:n { stroke }
+    \draw_scope_end:
   }
 
 \@@_new_frame_construct:nn { 田 }
   {
-    \@@_frame_type_c:n { 口 } {#1} {#2} {#3} {#4} {#5} {#6}
+    \@@_frame_type_c:n { filledbox } {#1} {#2} {#3} {#4} {#5} {#6}
     \@@_frame_type_c:n { 十 } {#1} {#2} {#3} {#4} {#5} {#6}
+    \@@_frame_type_c:n { framebox } {#1} {#2} {#3} {#4} {#5} {#6}
   }
 
 \@@_new_frame_construct:nn { 米 }
@@ -1099,9 +1338,11 @@ Copyright and Licence
 
 \@@_new_frame_construct:nn { 咪 }
   {
+    \@@_frame_type_c:n { filledbox } {#1} {#2} {#3} {#4} {#5} {#6}
     \@@_frame_type_c:n { 口 } {#1} {#2} {#3} {#4} {#5} {#6}
     \@@_frame_type_c:n { × } {#1} {#2} {#3} {#4} {#5} {#6}
     \@@_frame_type_c:n { 十 } {#1} {#2} {#3} {#4} {#5} {#6}
+    \@@_frame_type_c:n { framebox } {#1} {#2} {#3} {#4} {#5} {#6}
   }
 %    \end{macrocode}
 %
@@ -1170,6 +1411,8 @@ Copyright and Licence
   }
 %    \end{macrocode}
 % \end{macro}
+%
+% \changes{v2.0.0}{2021/09/28}{删除square缩放样式}
 %
 % 定义缩放方式函数。
 %    \begin{macrocode}
@@ -1254,14 +1497,52 @@ Copyright and Licence
 \msg_new:nnn { hanzibox } { frame-type } { using~ `#1'~ frame. }
 %    \end{macrocode}
 %
-% \changes{v2.0.0}{2021/09/28}{删除square缩放样式}
-%
 % \subsubsection{设置字号}
 %
 % \begin{macro}{\@@_zihao:n}
 % 设置字号
 %    \begin{macrocode}
 \cs_new_nopar:Npn \@@_zihao:n #1 { \zihao {#1} }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.2.0}{2021/10/08}{添加字符轮廓处理函数}
+%
+% \subsubsection{字符轮廓处理函数}
+% 源码改自\LaTeX 字帖宏包(\url{https://www.ctan.org/pkg/zitie})。
+%
+% \begin{macro}{\@@_chars_stroke:nn}
+% 设置字形轮廓
+%    \begin{macrocode}
+\cs_new:Npn \@@_chars_stroke:nn #1#2
+  {
+    \special { pdf:code ~ q ~ #1 } #2 \special { pdf:code ~ Q }
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_chars_stroke:nn}
+% 设置字号
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_chars_stroke_construct:n #1
+  {
+    \int_case:nn {\l_@@_charstroke_type_int}
+      {
+        {1}{ #1 }
+        {2}{
+          \@@_chars_stroke:nn { 1 ~ Tr ~ 0.15 ~ w ~ [] ~ 0 ~ d ~ 1 ~ J } {#1}
+        }
+        {3}{
+          \@@_chars_stroke:nn { 1 ~ Tr ~ 0.15 ~ w ~ [.8] ~ 0 ~ d ~ 1 ~ J } {#1}
+        }
+        {4}{
+          \@@_chars_stroke:nn { 3 ~ Tr } {#1}
+        }
+
+      }
+  }
+\cs_generate_variant:Nn  \@@_chars_stroke_construct:n { V }
+\cs_generate_variant:Nn  \@@_chars_stroke_construct:n { x }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1280,10 +1561,12 @@ Copyright and Licence
   {
     \color_set:nn {#1} {#2}
   }
+\cs_generate_variant:Nn \@@_color_select:nn {nx}
 \cs_set_nopar:Npn \@@_color_select:nnn #1#2#3
   {
     \color_set:nnn {#1} {#2} {#3}
   }
+\cs_generate_variant:Nn \@@_color_select:nnn {nnx}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1332,16 +1615,20 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
+% \changes{v2.2.0}{2021/10/07}{为pinyinf选项增加计算拼音高度功能}
+%
 % \begin{macro}{pinyinf}
-% 拼音的格式
+% 拼音格式
 %    \begin{macrocode}
-    pinyinf .tl_set:N = \l_@@_pinyin_format_tl ,
+    pinyinf .code:n = { \tl_set:Nn \l_@@_pinyin_format_tl { #1 }
+                        \@@_calc_pinyin_h:
+                      },
     pinyinf .initial:n = \tiny ,
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{charf}
-% 汉字的格式
+% 汉字格式
 %    \begin{macrocode}
     charf .code:n = { \tl_gset:Nn \l_@@_character_format_tl {#1}
                       \@@_calc_frame_size:
@@ -1350,7 +1637,7 @@ Copyright and Licence
 % \end{macro}
 %
 % \begin{macro}{tranf}
-% 译文的格式
+% 译文格式
 %    \begin{macrocode}
     tranf .tl_set:N = \l_@@_translation_format_tl ,
     tranf .initial:n = \tiny ,
@@ -1358,8 +1645,7 @@ Copyright and Licence
 % \end{macro}
 %
 % \begin{macro}{frametype}
-% 设置边框类型，其取值可以是：none-无方框，口–仅方框， 十–仅中间的横线和竖线，
-% 田–常见的田字格， 米–十字格再加上斜的两条线， 咪–常见的米字格。
+% 边框类型
 %    \begin{macrocode}
     frametype .code:n = { \exp_args:NNx \clist_if_in:NnTF \g_@@_frame_list_clist {#1}
                             { \tl_set:Nx \l_@@_frame_type_tl {#1} }
@@ -1369,10 +1655,7 @@ Copyright and Licence
 % \end{macro}
 %
 % \begin{macro}{resize}
-% resize 设置缩放方式，其取值可以是：
-% none，不使用缩放
-% real，使用字符实际宽高缩放，
-% base，使用 basechar 设置的字符的宽高缩放。
+% 缩放方式
 %    \begin{macrocode}
     resize    .code:n = { \exp_args:NNx \clist_if_in:NnTF \g_@@_resize_method_clist {#1}
                             { \tl_set:Nx \l_@@_resize_method_tl {#1} }
@@ -1426,12 +1709,28 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
+% \changes{v2.1.1}{2021/10/07}{添加颜色比例选项corsscolorratio}
+%
+% \begin{macro}{crosscolorratio}
+% 边框颜色
+%    \begin{macrocode}
+    crosscolorratio  .int_set:N = \l_@@_cross_color_ratio_int,
+    crosscolorratio  .initial:n = 20,
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.1.1}{2021/10/07}{为格子内部十字和米字线定义hanziboxcrosscolor颜色}
+%
 % \begin{macro}{framecolor}
 % 边框颜色
 %    \begin{macrocode}
-    framecolor  .code:n = { \@@_color_select:nn { hanziboxframecolor } {#1} } ,
+    framecolor  .code:n = { \tl_set:Nx \l_tmpa_tl { #1 ! \int_use:N \l_@@_cross_color_ratio_int }
+                            \@@_color_select:nn { hanziboxframecolor } {#1}
+                            \@@_color_select:nx{ hanziboxcrosscolor } { \l_tmpa_tl } } ,
     framecolor  .initial:n = black ,
-    framecolor* .code:n = { \@@_color_select:nnn { hanziboxframecolor } #1 } ,
+    framecolor* .code:n = { \tl_set:Nx \l_tmpa_tl { #1 ! \int_use:N \l_@@_cross_color_ratio_int }
+                            \@@_color_select:nnn { hanziboxframecolor } #1
+                            \@@_color_select:nnx { hanziboxcrosscolor } \l_tmpa_tl } ,
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1444,11 +1743,33 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{color}
-% 同时设置边框和字符颜色
+% \changes{v2.2.0}{2021/10/07}{添加拼音和译文颜色选项}
+%
+% \begin{macro}{charcolor}
+% 拼音颜色
 %    \begin{macrocode}
-    color  .meta:n = { framecolor = #1, charcolor = #1 } ,
-    color* .meta:n = { framecolor* = #1, charcolor* = #1 } ,
+    pinyincolor  .code:n = { \@@_color_select:nn { hanziboxpinyincolor } {#1} } ,
+    pinyincolor  .initial:n = black ,
+    pinyincolor* .code:n = { \@@_color_select:nnn { hanziboxpinyincolor } {#1} } ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{charcolor}
+% 译文颜色
+%    \begin{macrocode}
+    trancolor  .code:n = { \@@_color_select:nn { hanziboxtrancolor } {#1} } ,
+    trancolor  .initial:n = black ,
+    trancolor* .code:n = { \@@_color_select:nnn { hanziboxtrancolor } {#1} } ,
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{color}
+% 同时设置边框、字符、拼音和译文颜色
+%    \begin{macrocode}
+    color  .meta:n = { framecolor = #1,  charcolor = #1,
+                       pinyincolor = #1, trancolor = #1 } ,
+    color* .meta:n = { framecolor* = #1,  charcolor* = #1,
+                       pinyincolor* = #1, trancolor* = #1 } ,
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1468,6 +1789,21 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
+% \changes{v2.2.0}{2021/10/08}{添加字符轮廓类型选项}
+%
+% \begin{macro}{charstroke}
+% 设置论文类型。设为模板选项主要是为了以后的兼容性。论文类型可能会
+% 影响很多设置，默认为本科毕业论文。
+%    \begin{macrocode}
+    charstroke .choice:,
+    charstroke .value_required:n = true,
+    charstroke .choices:nn =
+      { none, solid, dashed, invisible }
+      { \int_set_eq:NN \l_@@_charstroke_type_int \l_keys_choice_int },
+    charstroke .initial:n = none,
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{dashpattern}
 % 虚线样式
 %    \begin{macrocode}
@@ -1477,7 +1813,7 @@ Copyright and Licence
 % \end{macro}
 %
 % \begin{macro}{framearc}
-% 转角半径
+% 矩形外框转角半径
 %    \begin{macrocode}
     framearc  .code:n = { \tl_set:Nn \l_@@_frame_arc_tl { {#1}{#1} } } ,
     framearc* .tl_set:N = \l_@@_frame_arc_tl ,
@@ -1534,10 +1870,22 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
-% \changes{v1.1.0}{2021/09/21}{添加隐藏拼音键。}
+% \changes{v2.2.0}{2021/10/07}{添加是否显示拼音线选项}
+%
+% \begin{macro}{pinyinline}
+% 是否绘制拼音四线格，默认为true。
+%    \begin{macrocode}
+    pinyinline .bool_set:N = \l_@@_withpinyinlines_bool,
+    pinyinline .default:n = false,
+    pinyinline .initial:n = false,
+
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v1.1.0}{2021/09/21}{添加隐藏拼音、汉字和译文选项}
 %
 % \begin{macro}{pinyin}
-% 是否显示汉语拼音，默认为true。
+% 是否显示拼音，默认为true。
 %    \begin{macrocode}
     pinyin .bool_set:N = \l_@@_withpinyin_bool,
     pinyin .default:n = true,
@@ -1546,10 +1894,8 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
-% \changes{v1.1.0}{2021/09/21}{添加隐藏汉字键。}
-%
 % \begin{macro}{hanzi}
-% 是否显示汉语拼音，默认为true。
+% 是否显示汉字，默认为true。
 %    \begin{macrocode}
     hanzi .bool_set:N = \l_@@_withhanzi_bool,
     hanzi .default:n = true,
@@ -1558,10 +1904,8 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
-% \changes{v1.1.0}{2021/09/21}{添加隐藏译文键。}
-%
 % \begin{macro}{tran}
-% 是否显示汉语拼音，默认为true。
+% 是否显示译文，默认为true。
 %    \begin{macrocode}
     tran .bool_set:N = \l_@@_withtran_bool,
     tran .default:n = true,
@@ -1591,6 +1935,8 @@ Copyright and Licence
     tranf = \tiny ,
     frametype = none ,
     resize = none ,
+    crosscolorratio = 20,
+    framecolor = black,
   }
 
 %    \end{macrocode}
@@ -1630,11 +1976,6 @@ Copyright and Licence
       \tl_set:Nx \l_@@_pinyin_tl {#3}
       \tl_set:Nx \l_@@_translation_tl {#4}
 
-      \hcoffin_set:Nn \l_@@_pinyin_box_coffin
-        {
-          \tl_use:N \l_@@_pinyin_format_tl
-          \tl_use:N \l_@@_pinyin_tl
-        }
       \hcoffin_set:Nn \l_@@_str_box_coffin
         {
           \tl_map_inline:Nn \l_@@_character_tl
@@ -1642,17 +1983,38 @@ Copyright and Licence
               \@@_single_handle:N ##1 \allowbreak
             }
         }
+      \hcoffin_set:Nn \l_tmpa_coffin
+        {
+          \hcoffin_set:Nn \l_@@_pinyin_box_coffin
+            {
+              \color_select:n { hanziboxpinyincolor }
+              \tl_use:N \l_@@_pinyin_format_tl
+              \tl_use:N \l_@@_pinyin_tl
+            }
+          \dim_set:Nn \l_tmpa_dim { \coffin_wd:N \l_@@_pinyin_box_coffin }
+          \draw_begin:
+            \draw_linewidth:n { 0.4pt }
+            \color_stroke:n { hanziboxcrosscolor }
+
+            \draw_path_scope_begin:
+              \@@_frame_type_c:n { pinyinlines }
+                { 0 } { 0 } { \l_tmpa_dim } { \hanziboxheight } { 1.0 } { 1.0 }
+              \draw_transform_shift:n {\l_tmpa_dim / 2.0, \l_@@_pinyin_height_i_dim }
+              \draw_coffin_use:Nnn \l_@@_pinyin_box_coffin { hc } { H }
+            \draw_path_scope_end:
+          \draw_end:
+        }
       \hcoffin_set:Nn \l_@@_tran_box_coffin
         {
           \tl_use:N \l_@@_translation_format_tl
           \tl_use:N \l_@@_translation_tl
         }
-      \coffin_join:NnnNnnnn \l_@@_str_box_coffin
-        { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
-      \coffin_join:NnnNnnnn \l_@@_str_box_coffin
+      \coffin_join:NnnNnnnn \l_tmpa_coffin
+        { hc } { b } \l_@@_str_box_coffin { hc } { t } { 0pt } { 0.4pt }
+      \coffin_join:NnnNnnnn \l_tmpa_coffin
         { hc } { b } \l_@@_tran_box_coffin { hc } { t } { 0pt } { -2pt }
 
-      \coffin_set_eq:NN \l_@@_box_coffin \l_@@_str_box_coffin
+      \coffin_set_eq:NN \l_@@_box_coffin \l_tmpa_coffin
 
       \@@_resize_c:n { \l_@@_resize_method_tl }
 
@@ -1664,7 +2026,7 @@ Copyright and Licence
 % \end{macro}
 %
 % \changes{v2.0.1}{2021/09/28}{分离多字、单字、0个字的盒子构造代码}
-% \changes{v2.1.0}{2021/09/30}{更新拼音获取方式，以处理\tn{setuppinyin}的结果}
+% \changes{v2.1.0}{2021/09/30}{更新拼音获取方式}
 %
 % \begin{macro}{\@@_multi_str_coffin_construct:}
 % 构造多汉字带拼音字符串盒子。
@@ -1682,16 +2044,23 @@ Copyright and Licence
                     \@@_single_handle:N ##1
                   }
 
-                \bool_if:NT \l_@@_withpinyin_bool
+                \bool_if:NTF \l_@@_withpinyin_bool
                   {
                     \@@_get_hanzi_pinyin:n { ##1 }
-                    \@@_single_pinyin:V \l_@@_hanzi_pinyin_tl
+                    \hcoffin_set:Nn \l_tmpb_coffin
+                      {
+                        \@@_single_pinyin:V \l_@@_hanzi_pinyin_tl
+                      }
 
-                    \coffin_join:NnnNnnnn \l_tmpa_coffin
-                      { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                    \coffin_join:NnnNnnnn \l_tmpb_coffin
+                      { hc } { b } \l_tmpa_coffin { hc } { t } { 0pt } { 0.4pt }
+                    \coffin_typeset:Nnnnn \l_tmpb_coffin
+                      { l } { b } { 0pt } { 0pt }
                   }
-                \coffin_typeset:Nnnnn \l_tmpa_coffin
-                  { l } { b } { 0pt } { 0pt }
+                  {
+                    \coffin_typeset:Nnnnn \l_tmpa_coffin
+                    { l } { b } { 0pt } { 0pt }
+                  }
                 \allowbreak
               }
           }
@@ -1712,16 +2081,23 @@ Copyright and Licence
                         \@@_single_handle:N ##1
                       }
 
-                    \bool_if:NT \l_@@_withpinyin_bool
+                    \bool_if:NTF \l_@@_withpinyin_bool
                       {
                         \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
-                        \@@_single_pinyin:V \l_tmpb_tl
+                        \hcoffin_set:Nn \l_tmpb_coffin
+                          {
+                            \@@_single_pinyin:V \l_tmpb_tl
+                          }
 
-                        \coffin_join:NnnNnnnn \l_tmpa_coffin
-                          { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                        \coffin_join:NnnNnnnn \l_tmpb_coffin
+                          { hc } { b } \l_tmpa_coffin { hc } { t } { 0pt } { 0.4pt }
+                        \coffin_typeset:Nnnnn \l_tmpb_coffin
+                          { l } { b } { 0pt } { 0pt }
                       }
-                    \coffin_typeset:Nnnnn \l_tmpa_coffin
-                      { l } { b } { 0pt } { 0pt }
+                      {
+                        \coffin_typeset:Nnnnn \l_tmpa_coffin
+                          { l } { b } { 0pt } { 0pt }
+                      }
                     \allowbreak
                   }
               }
@@ -1735,16 +2111,23 @@ Copyright and Licence
                             \tl_set:Nx \l_tmpa_tl {\tl_item:Nn \l_@@_character_tl { ##1 }}
                             \@@_single_handle:N \l_tmpa_tl
                           }
-                        \bool_if:NT \l_@@_withpinyin_bool
+                        \bool_if:NTF \l_@@_withpinyin_bool
                           {
                             \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
-                            \@@_single_pinyin:V \l_tmpb_tl
+                            \hcoffin_set:Nn \l_tmpb_coffin
+                              {
+                                \@@_single_pinyin:V \l_tmpb_tl
+                              }
 
-                            \coffin_join:NnnNnnnn \l_tmpa_coffin
-                              { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                            \coffin_join:NnnNnnnn \l_tmpb_coffin
+                              { hc } { b } \l_tmpa_coffin { hc } { t } { 0pt } { 0.4pt }
+                            \coffin_typeset:Nnnnn \l_tmpb_coffin
+                              { l } { b } { 0pt } { 0pt }
                           }
-                        \coffin_typeset:Nnnnn \l_tmpa_coffin
-                          { l } { b } { 0pt } { 0pt }
+                          {
+                            \coffin_typeset:Nnnnn \l_tmpa_coffin
+                              { l } { b } { 0pt } { 0pt }
+                          }
                         \allowbreak
                       }
                     \int_step_inline:nnn { \l_tmpa_int + 1 } { \l_@@_character_int }
@@ -1754,7 +2137,14 @@ Copyright and Licence
                             \tl_set:Nx \l_tmpa_tl {\tl_item:Nn \l_@@_character_tl { ##1 }}
                             \@@_single_handle:N \l_tmpa_tl
                           }
-                        \coffin_typeset:Nnnnn \l_tmpa_coffin
+                        \hcoffin_set:Nn \l_tmpb_coffin
+                          {
+                            \@@_single_pinyin_lines:
+                          }
+
+                        \coffin_join:NnnNnnnn \l_tmpb_coffin
+                          { hc } { b } \l_tmpa_coffin { hc } { t } { 0pt } { 0.4pt }
+                        \coffin_typeset:Nnnnn \l_tmpb_coffin
                           { l } { b } { 0pt } { 0pt }
                         \allowbreak
                       }
@@ -1767,16 +2157,23 @@ Copyright and Licence
                             \tl_set:Nx \l_tmpa_tl {\tl_item:Nn \l_@@_character_tl { ##1 }}
                             \@@_single_handle:N \l_tmpa_tl
                           }
-                        \bool_if:NT \l_@@_withpinyin_bool
+                        \bool_if:NTF \l_@@_withpinyin_bool
                           {
                             \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
-                            \@@_single_pinyin:V \l_tmpb_tl
+                            \hcoffin_set:Nn \l_tmpb_coffin
+                              {
+                                \@@_single_pinyin:V \l_tmpb_tl
+                              }
 
-                            \coffin_join:NnnNnnnn \l_tmpa_coffin
-                              { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                            \coffin_join:NnnNnnnn \l_tmpb_coffin
+                              { hc } { b } \l_tmpa_coffin { hc } { t } { 0pt } { 0.4pt }
+                            \coffin_typeset:Nnnnn \l_tmpb_coffin
+                              { l } { b } { 0pt } { 0pt }
                           }
-                        \coffin_typeset:Nnnnn \l_tmpa_coffin
-                          { l } { b } { 0pt } { 0pt }
+                          {
+                            \coffin_typeset:Nnnnn \l_tmpa_coffin
+                              { l } { b } { 0pt } { 0pt }
+                          }
                         \allowbreak
                       }
 
@@ -1789,16 +2186,23 @@ Copyright and Licence
                               {
                                 \@@_single_handle:N \c_@@_basechar_tl
                               }
-                            \bool_if:NT \l_@@_withpinyin_bool
+                            \bool_if:NTF \l_@@_withpinyin_bool
                               {
                                 \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
-                                \@@_single_pinyin:V \l_tmpb_tl
+                                \hcoffin_set:Nn \l_tmpb_coffin
+                                  {
+                                    \@@_single_pinyin:V \l_tmpb_tl
+                                  }
 
-                                \coffin_join:NnnNnnnn \l_tmpa_coffin
-                                  { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                                \coffin_join:NnnNnnnn \l_tmpb_coffin
+                                  { hc } { b } \l_tmpa_coffin { hc } { t } { 0pt } { 0.4pt }
+                                \coffin_typeset:Nnnnn \l_tmpb_coffin
+                                  { l } { b } { 0pt } { 0pt }
                               }
-                            \coffin_typeset:Nnnnn \l_tmpa_coffin
-                              { l } { b } { 0pt } { 0pt }
+                              {
+                                \coffin_typeset:Nnnnn \l_tmpa_coffin
+                                  { l } { b } { 0pt } { 0pt }
+                              }
                             \allowbreak
                           }
                         \bool_set_true:N \l_@@_withhanzi_bool
@@ -1810,16 +2214,23 @@ Copyright and Licence
                               {
                                 \@@_single_handle:N \c_@@_basechar_tl
                               }
-                            \bool_if:NT \l_@@_withpinyin_bool
+                            \bool_if:NTF \l_@@_withpinyin_bool
                               {
                                 \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
-                                \@@_single_pinyin:V \l_tmpb_tl
+                                \hcoffin_set:Nn \l_tmpb_coffin
+                                  {
+                                    \@@_single_pinyin:V \l_tmpb_tl
+                                  }
 
-                                \coffin_join:NnnNnnnn \l_tmpa_coffin
-                                  { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                                \coffin_join:NnnNnnnn \l_tmpb_coffin
+                                  { hc } { b } \l_tmpa_coffin { hc } { t } { 0pt } { 0.4pt }
+                                \coffin_typeset:Nnnnn \l_tmpb_coffin
+                                  { l } { b } { 0pt } { 0pt }
                               }
-                            \coffin_typeset:Nnnnn \l_tmpa_coffin
-                              { l } { b } { 0pt } { 0pt }
+                              {
+                                \coffin_typeset:Nnnnn \l_tmpa_coffin
+                                  { l } { b } { 0pt } { 0pt }
+                              }
                             \allowbreak
                           }
                       }
@@ -1848,22 +2259,30 @@ Copyright and Licence
                 \@@_single_handle:N \l_@@_character_tl
               }
 
-            \bool_if:NT \l_@@_withpinyin_bool
+            \bool_if:NTF \l_@@_withpinyin_bool
               {
-                \hcoffin_set:Nn \l_@@_pinyin_box_coffin
+                \hcoffin_set:Nn \l_tmpb_coffin
                   {
-                    \color_select:n { hanziboxcharcolor }
-                    \tl_use:N \l_@@_pinyin_format_tl
-                    \@@_get_tone_pinyin:V \l_@@_pinyin_tl
-                    \clist_clear:N \l_@@_tone_pinyin_clist
-                    \clist_set:NV \l_@@_tone_pinyin_clist \l_@@_tone_pinyin_tl
-                    \clist_use:Nn \l_@@_tone_pinyin_clist {}
+                    \hcoffin_set:Nn \l_@@_pinyin_box_coffin
+                      {
+                        \color_select:n { hanziboxpinyincolor }
+                        \tl_use:N \l_@@_pinyin_format_tl
+                        \@@_get_tone_pinyin:V \l_@@_pinyin_tl
+                        \clist_clear:N \l_@@_tone_pinyin_clist
+                        \clist_set:NV \l_@@_tone_pinyin_clist \l_@@_tone_pinyin_tl
+                        \clist_use:Nn \l_@@_tone_pinyin_clist {}
+                      }
+                    \@@_single_pinyin_lines_construct:
                   }
-                \coffin_join:NnnNnnnn \l_tmpa_coffin
-                  { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
+                \coffin_join:NnnNnnnn \l_tmpb_coffin
+                  { hc } { b } \l_tmpa_coffin { hc } { t } { 0pt } { 0.4pt }
+                \coffin_typeset:Nnnnn \l_tmpb_coffin
+                  { l } { b } { 0pt } { 0pt }
               }
-            \coffin_typeset:Nnnnn \l_tmpa_coffin
-              { l } { b } { 0pt } { 0pt }
+              {
+                \coffin_typeset:Nnnnn \l_tmpa_coffin
+                  { l } { b } { 0pt } { 0pt }
+              }
             \allowbreak
           }
       }
@@ -1871,7 +2290,7 @@ Copyright and Licence
 %    \end{macrocode}
 % \end{macro}
 %
-% \changes{v2.1.1}{2021/10/02}{修复无汉字手支拼音无法正确处理的问题}
+% \changes{v2.1.1}{2021/10/02}{修复无汉字手动拼音分割问题}
 %
 % \begin{macro}{\@@_null_str_coffin_construct:}
 % 构造空白汉字(0个汉字)带拼音字符串盒子。
@@ -1907,11 +2326,14 @@ Copyright and Licence
                       }
 
                     \clist_pop:NN \l_@@_tone_pinyin_clist \l_tmpb_tl
-                    \@@_single_pinyin:V \l_tmpb_tl
+                    \hcoffin_set:Nn \l_tmpb_coffin
+                      {
+                        \@@_single_pinyin:V \l_tmpb_tl
+                      }
 
-                    \coffin_join:NnnNnnnn \l_tmpa_coffin
-                      { hc } { t } \l_@@_pinyin_box_coffin { hc } { H } { 0pt } { 3pt }
-                    \coffin_typeset:Nnnnn \l_tmpa_coffin
+                    \coffin_join:NnnNnnnn \l_tmpb_coffin
+                      { hc } { b } \l_tmpa_coffin { hc } { t } { 0pt } { 0.4pt }
+                    \coffin_typeset:Nnnnn \l_tmpb_coffin
                       { l } { b } { 0pt } { 0pt }
                     \allowbreak
                   }
@@ -1973,7 +2395,7 @@ Copyright and Licence
         {
           \hcoffin_set:Nn \l_@@_tran_box_coffin
             {
-              \color_select:n { hanziboxcharcolor }
+              \color_select:n { hanziboxtrancolor }
               \tl_use:N \l_@@_translation_format_tl
               \tl_use:N \l_@@_translation_tl
             }
@@ -2007,7 +2429,7 @@ Copyright and Licence
             \@@_split_pinyin_withtone:n { #1 }
             \hcoffin_set:Nn \l_@@_pinyin_box_coffin
               {
-                \color_select:n { hanziboxcharcolor }
+                \color_select:n { hanziboxpinyincolor }
                 \tl_use:N \l_@@_pinyin_format_tl
 
                 \bool_if:NTF \l_@@_withinitial_bool
@@ -2038,7 +2460,7 @@ Copyright and Licence
           {
             \hcoffin_set:Nn \l_@@_pinyin_box_coffin
               {
-                \color_select:n { hanziboxcharcolor }
+                \color_select:n { hanziboxpinyincolor }
                 \tl_use:N \l_@@_pinyin_format_tl
                 #1
               }
@@ -2048,12 +2470,13 @@ Copyright and Licence
         \@@_split_pinyin_withouttone:n { #1 }
         \hcoffin_set:Nn \l_@@_pinyin_box_coffin
         {
-          \color_select:n { hanziboxcharcolor }
+          \color_select:n { hanziboxtrancolor }
           \tl_use:N \l_@@_pinyin_format_tl
 
           \tl_use:N \l_@@_pinyin_tl
         }
       }
+      \@@_single_pinyin_lines_construct:
   }
 \cs_generate_variant:Nn  \@@_single_pinyin:n { V }
 \cs_generate_variant:Nn  \@@_single_pinyin:n { x }
@@ -2088,6 +2511,7 @@ Copyright and Licence
 % \end{macro}
 %
 % \changes{v2.0.0}{2021/09/27}{删除单个汉字构造中添加拼音的功能}
+% \changes{v2.2.0}{2021/10/08}{为汉字添加字符轮廓处理}
 %
 % \begin{macro}{\@@_single_construct:N}
 % 构造单个汉字盒子
@@ -2100,7 +2524,7 @@ Copyright and Licence
           {
             \color_select:n { hanziboxcharcolor }
             \tl_use:N \l_@@_character_format_tl
-            #1
+            \@@_chars_stroke_construct:n { #1 }
           }
       }
       {
@@ -2141,6 +2565,46 @@ Copyright and Licence
         \draw_transform_shift:n {\hanziboxwidth / 2.0, \hanziboxheight / 2.0 }
         \draw_coffin_use:Nnn \l_@@_box_coffin { hc } { vc }
       \draw_path_scope_end:
+    \draw_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.2.0}{2021/10/07}{构造单个拼音盒子}
+%
+% \begin{macro}{\@@_single_pinyin_lines_construct:}
+% 构造单个拼音盒子
+%    \begin{macrocode}
+\cs_new:Npn \@@_single_pinyin_lines_construct:
+  {
+    \draw_begin:
+      \draw_linewidth:n { 0.4pt }
+      \color_stroke:n { hanziboxcrosscolor }
+
+      \draw_path_scope_begin:
+        \@@_frame_type_c:n { pinyinlines }
+          { 0 } { 0 } { \hanziboxwidth } { \hanziboxheight } { 1.0 } { 1.0 }
+        \draw_transform_shift:n {\hanziboxwidth / 2.0, \l_@@_pinyin_height_i_dim }
+        \draw_coffin_use:Nnn \l_@@_pinyin_box_coffin { hc } { H }
+      \draw_path_scope_end:
+    \draw_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+%
+% \changes{v2.2.0}{2021/10/07}{构造单个拼音线}
+%
+% \begin{macro}{\@@_single_pinyin_lines:}
+% 构造单个拼音线
+%    \begin{macrocode}
+\cs_new:Npn \@@_single_pinyin_lines:
+  {
+    \draw_begin:
+      \draw_linewidth:n { 0.4pt }
+      \color_stroke:n { hanziboxcrosscolor }
+
+      \@@_frame_type_c:n { pinyinlines }
+        { 0 } { 0 } { \hanziboxwidth } { \hanziboxheight } { 1.0 } { 1.0 }
     \draw_end:
   }
 %    \end{macrocode}
