@@ -28,7 +28,6 @@ Contributing
     1. repository: [hanzibox-l3](https://gitee.com/nwafu_nan/hanzibox-l3)
     2. Issues and pull requests are welcome. [issue](https://gitee.com/nwafu_nan/hanzibox-l3/issues) or [pull request](https://gitee.com/nwafu_nan/hanzibox-l3/pulls).
 
-=======
 基于LaTeX3的带注音和译文的汉字练习宏包
 =======
 
