@@ -1,11 +1,11 @@
 Boxed Chinese characters with Pinyin above and translation below based LaTeX3
 =======
 
-`hanzibox` is a LaTeX package developed in LaTeX3, which provides `\hanzibox` and `\hanzidialog` macros. These two macros are used for typesetting Chinese character with or without a background grid such as a cross grid or star grid for Chinese character writting learning.
+`hanzibox` is a LaTeX package developed in LaTeX3, which provides `\hanzibox`, `\hanzidialog` and `\writegrid` macros. These macros are used for typesetting Chinese character with or without a background grid such as a cross grid or star grid for Chinese character writting learning.
 
 And you can display the Hanyu Pinyin above the Chinese character and the translation below them as needed.
 
-The `\hanzibox` macro can automatically invoke the `\xpinyin*` macro of the `xpinyin` package to get Hanyu Pinyin according to the Chinese characters.  And the `\hanzibox` macro provides an asterisk version of `\hanzibox*`, whose function is achieved by automatically invoking the `xpinyin` package's `\pinyin` macro to get Hanyu Pinyin. The `\hanzidialog` macro is implemented by manually inserting the `\pinyin` macro of the `xpinyin` package in it's pinyin option.
+The `\hanzibox` macro can automatically invoke the `\xpinyin*` macro of the `xpinyin` package to get Hanyu Pinyin according to the Chinese characters.  And the `\hanzibox` macro provides an asterisk version of `\hanzibox*`, whose function is achieved by automatically invoking the `xpinyin` package's `\pinyin` macro to get Hanyu Pinyin. The `\hanzidialog` macro is implemented by manually inserting the `\pinyin` macro of the `xpinyin` package in it's pinyin option. The `\writegrid` macro is for write a composition anwser grid.
 
 `hanzibox` is a utility for learning to write and pronounce Chinese characters, and can be used for Chinese character learning plans, presentations, exercise booklets and other documentation work.
 
@@ -31,7 +31,7 @@ Contributing
 基于LaTeX3的带注音和译文的汉字练习宏包
 =======
 
-`hanzibox`是一个用LaTeX3开发的LaTeX宏包，它提供了`\hanzibox`和`\hanzidialog` 两个命令。这两个命令分别用于排版汉字学习中带有或不带田字格、米字格等背景格子的汉字，并可以根据需要在汉字正上方显示拼音，在正下方显示译文。其中，`\hanzibox`命令能够根据汉字自动调用`xpinyin`宏包的`\xpinyin*`命令实现汉字注音。并且`\hanzibox`命令提供了`\hanzibox*`星号版本，其注音功能是通过自动调用`xpinyin`宏包的`\pinyin`命令实现的。`\hanzidialog`命令的注音功能是通过在拼音选项中手动插入`xpinyin`宏包`\pinyin`命令实现的。
+`hanzibox`是一个用LaTeX3开发的LaTeX宏包，它提供了`\hanzibox`、`\hanzidialog` 和`\writegrid`三个个命令。这三个命令分别用于排版汉字学习中带有或不带田字格、米字格等背景格子的汉字，并可以根据需要在汉字正上方显示拼音，在正下方显示译文。其中，`\hanzibox`命令能够根据汉字自动调用`xpinyin`宏包的`\xpinyin*`命令实现汉字注音。并且`\hanzibox`命令提供了`\hanzibox*`星号版本，其注音功能是通过自动调用`xpinyin`宏包的`\pinyin`命令实现的。`\hanzidialog`命令的注音功能是通过在拼音选项中手动插入`xpinyin`宏包`\pinyin`命令实现的。`\writegrid`命令用于排版作文题目的答题格子纸。
 
 `hanzibox` 是一个用于学习汉字书写与发音的工具，可以用于汉字学习教案、演示文稿、习题册等文档工作。
 
@@ -55,7 +55,7 @@ Contributing
 Copyright and Licence
 ---------------------
 
-    Copyright (C) 2020-2021 by Nan Geng <nangeng@nwafu.edu.cn>
+    Copyright (C) 2020-2022 by Nan Geng <nangeng@nwafu.edu.cn>
     ----------------------------------------------------------------------
 
     This work may be distributed and/or modified under the
